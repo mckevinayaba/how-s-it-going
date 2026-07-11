@@ -17,12 +17,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-warm/90 backdrop-blur-md">
-      <div className="container-page flex h-24 items-center justify-between gap-4 sm:h-28 lg:h-32">
+      <div className="container-page flex h-28 items-center justify-between gap-4 sm:h-32 lg:h-36">
         <Link to="/" aria-label="HappyMe Health — home" className="flex items-center">
           <img
             src={logo}
             alt="HappyMe Health"
-            className="h-20 w-auto object-contain sm:h-24 lg:h-28"
+            className="h-24 w-auto object-contain sm:h-28 lg:h-32"
             draggable={false}
           />
         </Link>

@@ -27,12 +27,12 @@ export function Footer() {
           <Link
             to="/"
             aria-label="HappyMe Health — home"
-            className="inline-flex items-center justify-center rounded-xl2 bg-white px-5 py-4 shadow-soft"
+            className="inline-flex items-center justify-center rounded-xl2 bg-white px-6 py-5 shadow-soft"
           >
             <img
               src={logo}
               alt="HappyMe Health"
-              className="h-20 w-auto object-contain"
+              className="h-28 w-auto object-contain sm:h-32"
               draggable={false}
             />
           </Link>
