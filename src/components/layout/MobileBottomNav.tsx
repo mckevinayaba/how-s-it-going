@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { to: '/shop', label: 'Shop', Icon: ShopIcon, end: false },
   { to: '/impact', label: 'Impact', Icon: ImpactIcon, end: false },
   { to: '/learn', label: 'Learn', Icon: LearnIcon, end: false },
-  { to: '/cart', label: 'Cart', Icon: CartIcon, end: false },
+  { to: '/cart', label: 'Basket', Icon: CartIcon, end: false },
 ] as const
 
 export function MobileBottomNav() {
@@ -34,7 +34,7 @@ export function MobileBottomNav() {
                 <>
                   <span className="relative">
                     <Icon className="h-5 w-5" strokeWidth={isActive ? 2 : 1.6} />
-                    {label === 'Cart' && itemCount > 0 && (
+                    {label === 'Basket' && itemCount > 0 && (
                       <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-pill bg-red-500 px-1 text-[0.55rem] font-semibold text-white">
                         {itemCount}
                       </span>

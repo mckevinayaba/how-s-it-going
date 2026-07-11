@@ -5,6 +5,7 @@ import { ProductVisual } from '@/components/product/ProductVisual'
 import bundleImg from '@/assets/bundle-scene.jpg'
 import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
+import { SUPPORT_ADD_ON_CHOICES } from '@/data/orderOptions'
 import type { CartLineItem } from '@/types'
 
 const SUPPORT_ADD_ON_CENTS = 500
@@ -28,14 +29,14 @@ function CartItemVisual({ item }: { item: CartLineItem }) {
 
 export function Cart() {
   const { items, subtotalCents, setQuantity, removeItem } = useCart()
-  const [supportAddOn, setSupportAddOn] = useState(false)
+  const [supportChoice, setSupportChoice] = useState<string>('not-today')
 
-  const total = subtotalCents + (supportAddOn ? SUPPORT_ADD_ON_CENTS : 0)
+  const total = subtotalCents + (supportChoice === 'contribute' ? SUPPORT_ADD_ON_CENTS : 0)
 
   if (items.length === 0) {
     return (
       <div className="container-page py-20 text-center">
-        <h1 className="font-serif text-3xl text-charcoal">Your cart is empty</h1>
+        <h1 className="font-serif text-3xl text-charcoal">Your basket is empty</h1>
         <p className="mt-3 text-muted">
           Start with a simple, nourishing staple for your kitchen.
         </p>
@@ -48,7 +49,7 @@ export function Cart() {
 
   return (
     <div className="container-page py-12 sm:py-16">
-      <h1 className="font-serif text-3xl text-charcoal sm:text-4xl">Your cart</h1>
+      <h1 className="font-serif text-3xl text-charcoal sm:text-4xl">Your basket</h1>
 
       <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
         <ul className="space-y-5">
@@ -109,27 +110,43 @@ export function Cart() {
             <span>{formatPrice(subtotalCents)}</span>
           </div>
 
-          <label className="mt-4 flex items-start gap-3 rounded-card bg-green-50 p-4 text-sm text-green-800">
-            <input
-              type="checkbox"
-              checked={supportAddOn}
-              onChange={(event) => setSupportAddOn(event.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-green-500/30 text-green-500 focus:ring-green-500"
-            />
-            <span>
-              Add a {formatPrice(SUPPORT_ADD_ON_CENTS)} contribution to
-              HappyMe Health Impact outreach with this order.
-            </span>
-          </label>
+          <fieldset className="mt-4 rounded-card bg-green-50 p-4">
+            <legend className="px-0 text-sm font-medium text-green-800">
+              Support community outreach
+            </legend>
+            <div className="mt-2 space-y-2">
+              {SUPPORT_ADD_ON_CHOICES.map((choice) => (
+                <label key={choice.value} className="flex items-center gap-2.5 text-sm text-green-800">
+                  <input
+                    type="radio"
+                    name="support-add-on"
+                    value={choice.value}
+                    checked={supportChoice === choice.value}
+                    onChange={(event) => setSupportChoice(event.target.value)}
+                    className="h-4 w-4 border-green-500/30 text-green-500 focus:ring-green-500"
+                  />
+                  {choice.label}
+                  {choice.value === 'contribute' && (
+                    <span className="text-xs text-green-700/80">
+                      ({formatPrice(SUPPORT_ADD_ON_CENTS)})
+                    </span>
+                  )}
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
           <div className="mt-4 flex justify-between border-t border-line pt-4 font-serif text-lg text-charcoal">
             <span>Total</span>
             <span>{formatPrice(total)}</span>
           </div>
 
-          <Button to="/checkout" size="lg" className="mt-6 w-full">
-            Checkout
+          <Button to="/request-order" size="lg" className="mt-6 w-full">
+            Request order
           </Button>
+          <p className="mt-3 text-center text-xs text-muted">
+            No online payment is required at this stage.
+          </p>
           <Link
             to="/shop"
             className="mt-3 block text-center text-sm text-muted hover:text-green-700"

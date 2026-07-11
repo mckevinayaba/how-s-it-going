@@ -1,19 +1,22 @@
 import { useState } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getProductBySlug, products } from '@/data/products'
 import { ProductVisual } from '@/components/product/ProductVisual'
 import { GuidanceNote } from '@/components/ui/GuidanceNote'
 import { ProductCard } from '@/components/product/ProductCard'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { ChatIcon, ShopIcon } from '@/components/icons'
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>()
   const product = slug ? getProductBySlug(slug) : undefined
+  const navigate = useNavigate()
 
   const [activeImage, setActiveImage] = useState(0)
   const [variantIndex, setVariantIndex] = useState(0)
-  const [subscribe, setSubscribe] = useState(false)
+  const [reorderList, setReorderList] = useState(false)
   const { addItem } = useCart()
 
   if (!product) {
@@ -24,15 +27,24 @@ export function ProductDetail() {
   const gallery = [product.image, ...product.gallery]
   const related = products.filter((p) => product.relatedSlugs.includes(p.slug))
 
-  const handleAddToCart = () =>
+  const addToBasket = () =>
     addItem({
       kind: 'product',
       slug: product.slug,
       name: product.name,
-      priceCents: subscribe ? Math.round(variant.priceCents * 0.9) : variant.priceCents,
+      priceCents: variant.priceCents,
       image: product.image,
       variantLabel: variant.label,
     })
+
+  const handleRequestThisProduct = () => {
+    addToBasket()
+    navigate('/request-order')
+  }
+
+  const whatsappHelpLink = buildWhatsAppLink(
+    `Hi, I'd like some help choosing between HappyMe Health products. I'm interested in ${product.name}.`,
+  )
 
   return (
     <div className="py-10 pb-28 sm:py-14 lg:pb-14">
@@ -97,22 +109,62 @@ export function ProductDetail() {
           <label className="mt-5 flex items-center gap-2 text-sm text-charcoal">
             <input
               type="checkbox"
-              checked={subscribe}
-              onChange={(event) => setSubscribe(event.target.checked)}
+              checked={reorderList}
+              onChange={(event) => setReorderList(event.target.checked)}
               className="h-4 w-4 rounded border-line text-green-500 focus:ring-green-500"
             />
-            Subscribe and save 10% — delivered every month
+            Join reorder list — we'll remind you when it's time to restock
           </label>
 
           <button
             type="button"
-            onClick={handleAddToCart}
+            onClick={addToBasket}
             className="mt-6 hidden w-full rounded-pill bg-green-500 px-6 py-3.5 text-sm font-medium text-white shadow-soft transition-colors duration-300 ease-premium hover:bg-green-700 sm:w-auto lg:inline-flex"
           >
-            Add to cart
+            Add to basket
           </button>
 
-          <GuidanceNote className="mt-8" />
+          {/* Trust strip */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
+            <span>Choose your product</span>
+            <span className="text-green-600">&rarr;</span>
+            <span>Submit your request</span>
+            <span className="text-green-600">&rarr;</span>
+            <span>We contact you to confirm details</span>
+          </div>
+
+          <GuidanceNote className="mt-6" />
+
+          {/* Need help choosing */}
+          <div className="mt-6 rounded-xl2 bg-oat p-5">
+            <h2 className="flex items-center gap-2 font-serif text-base text-charcoal">
+              <ChatIcon className="h-4 w-4 text-green-700" strokeWidth={1.8} />
+              Need help choosing?
+            </h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted">
+              Message us and our team will help you select the best option
+              for your household.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleRequestThisProduct}
+                className="inline-flex items-center gap-2 rounded-pill bg-green-500 px-5 py-2.5 text-sm font-medium text-white shadow-soft transition-colors duration-300 ease-premium hover:bg-green-700"
+              >
+                <ShopIcon className="h-4 w-4" strokeWidth={1.7} />
+                Request this product
+              </button>
+              <a
+                href={whatsappHelpLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-pill border border-green-700/30 px-5 py-2.5 text-sm font-medium text-green-700 transition-colors hover:bg-green-700/5"
+              >
+                <ChatIcon className="h-4 w-4" strokeWidth={1.7} />
+                Ask on WhatsApp
+              </a>
+            </div>
+          </div>
 
           {/* Story */}
           <div className="mt-10">
@@ -169,17 +221,17 @@ export function ProductDetail() {
         </div>
       </div>
 
-      {/* Sticky mobile add-to-cart bar */}
+      {/* Sticky mobile add-to-basket bar */}
       <div className="fixed inset-x-0 bottom-16 z-30 flex items-center justify-between gap-4 border-t border-line bg-white/95 px-5 py-3 backdrop-blur lg:hidden">
         <span className="font-serif text-lg text-green-700">
-          {formatPrice(subscribe ? Math.round(variant.priceCents * 0.9) : variant.priceCents)}
+          {formatPrice(variant.priceCents)}
         </span>
         <button
           type="button"
-          onClick={handleAddToCart}
+          onClick={addToBasket}
           className="flex-1 max-w-[220px] rounded-pill bg-green-500 px-6 py-3 text-sm font-medium text-white shadow-soft transition-colors duration-300 ease-premium hover:bg-green-700"
         >
-          Add to cart
+          Add to basket
         </button>
       </div>
     </div>

@@ -49,6 +49,7 @@ export interface SupportOption {
 export interface TeamMember {
   name: string
   role: string
+  bio: string
 }
 
 export interface LearnTopic {

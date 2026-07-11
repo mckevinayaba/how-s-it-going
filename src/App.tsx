@@ -9,7 +9,7 @@ import { About } from '@/pages/About'
 import { Support } from '@/pages/Support'
 import { Contact } from '@/pages/Contact'
 import { Cart } from '@/pages/Cart'
-import { Checkout } from '@/pages/Checkout'
+import { OrderRequest } from '@/pages/OrderRequest'
 import { Account } from '@/pages/Account'
 import { NotFound } from '@/pages/NotFound'
 
@@ -26,7 +26,7 @@ function App() {
         <Route path="support" element={<Support />} />
         <Route path="contact" element={<Contact />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="checkout" element={<Checkout />} />
+        <Route path="request-order" element={<OrderRequest />} />
         <Route path="account" element={<Account />} />
         <Route path="*" element={<NotFound />} />
       </Route>

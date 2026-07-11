@@ -53,7 +53,7 @@ export function Header() {
           </Link>
           <Link
             to="/cart"
-            aria-label={`Cart, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
+            aria-label={`Basket, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
             className="relative text-charcoal transition-colors hover:text-green-700"
           >
             <CartIcon className="h-5 w-5" />

@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import heroImg from '@/assets/hero-scene.jpg'
 import founderImg from '@/assets/founder-kitchen.jpg'
+import bundleImg from '@/assets/bundle-scene.jpg'
 
 import { ProductCard } from '@/components/product/ProductCard'
 import { BundleCard } from '@/components/product/BundleCard'
@@ -9,9 +11,11 @@ import { MetricCard } from '@/components/impact/MetricCard'
 import { SupportCard } from '@/components/support/SupportCard'
 import { LeafIcon, ImpactIcon, ShieldIcon } from '@/components/icons'
 import { products } from '@/data/products'
-import { bundles } from '@/data/bundles'
+import { bundles, getBundleBySlug } from '@/data/bundles'
 import { impactMetrics } from '@/data/impact'
 import { supportOptions } from '@/data/support'
+import { formatPrice } from '@/lib/format'
+import { useCart } from '@/context/CartContext'
 
 const PROOF_STRIPS = [
   { label: 'Natural everyday products', Icon: LeafIcon },
@@ -19,7 +23,25 @@ const PROOF_STRIPS = [
   { label: 'Backed by documented community outreach', Icon: ShieldIcon },
 ]
 
+const ORDER_FLOW_STEPS = ['Order online', 'Confirm by WhatsApp', 'Pay after confirmation']
+
 export function Home() {
+  const { addItem } = useCart()
+  const navigate = useNavigate()
+  const starterPack = getBundleBySlug('family-health-starter-pack')
+
+  const handleRequestStarterPack = () => {
+    if (!starterPack) return
+    addItem({
+      kind: 'bundle',
+      slug: starterPack.slug,
+      name: starterPack.name,
+      priceCents: starterPack.priceCents,
+      image: starterPack.image,
+    })
+    navigate('/request-order')
+  }
+
   return (
     <>
       {/* 1. Hero */}
@@ -86,6 +108,58 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      {/* Order flow trust strip */}
+      <section className="border-y border-line bg-oat py-4">
+        <div className="container-page flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-sm font-medium text-charcoal">
+          {ORDER_FLOW_STEPS.map((step, index) => (
+            <span key={step} className="flex items-center gap-3">
+              {index > 0 && <span className="text-green-600">&rarr;</span>}
+              {step}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Starter pack highlight */}
+      {starterPack && (
+        <section className="bg-warm py-16 sm:py-24">
+          <div className="container-page">
+            <div className="grid grid-cols-1 items-stretch overflow-hidden rounded-product bg-oat shadow-card ring-1 ring-line lg:grid-cols-2">
+              <div className="aspect-[16/10] w-full lg:aspect-auto">
+                <img
+                  src={bundleImg}
+                  alt={starterPack.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 sm:p-10">
+                <span className="w-fit rounded-pill bg-green-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-green-700">
+                  Most popular
+                </span>
+                <h2 className="mt-4 font-serif text-2xl text-charcoal sm:text-3xl">
+                  The easiest way to begin.
+                </h2>
+                <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
+                  Date Sugar, Turmeric, and Tigernuts in one thoughtful
+                  household starter pack for families making more mindful
+                  everyday food choices.
+                </p>
+                <span className="mt-4 font-serif text-2xl text-green-700">
+                  {formatPrice(starterPack.priceCents)}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleRequestStarterPack}
+                  className="mt-6 w-fit rounded-pill bg-green-500 px-7 py-3.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 ease-premium hover:bg-green-700 hover:shadow-lift active:scale-[0.98]"
+                >
+                  Request starter pack
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 2. Featured products */}
       <section className="bg-warm py-16 sm:py-24">

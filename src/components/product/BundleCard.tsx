@@ -72,7 +72,7 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
               isImpact ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-700'
             }`}
           >
-            Add bundle
+            Add to basket
           </button>
         </div>
       </div>

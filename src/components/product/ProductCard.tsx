@@ -55,7 +55,7 @@ export function ProductCard({ product }: { product: Product }) {
           }
           className="w-full rounded-pill bg-green-500 px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 ease-premium hover:bg-green-700 hover:shadow-lift active:scale-[0.98]"
         >
-          Add to cart
+          Add to basket
         </button>
       </div>
     </article>
