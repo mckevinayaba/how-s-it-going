@@ -1,24 +1,27 @@
-## Add a photo to the Learn page "Featured Article" section
+## Regenerate people-featuring photos as Black Cameroonian subjects
 
-Yes — that green placeholder box on the right should be a real image. Right now it's an empty gradient div on `src/pages/Learn.tsx` (line 103).
+The two photos currently show white people. Regenerate them so the people are Black Africans in a Cameroonian home context, keeping composition, lighting, and warm editorial tone identical.
 
-### What to add
+### Images to regenerate
 
-A warm, editorial photo that speaks to the article "Why what we eat at home matters more than most of us were told" — i.e. a home kitchen scene with family/food warmth, not a stock salad shot.
+1. **`src/assets/learn-featured-kitchen.jpg`** — Learn page "Featured article"
+   - Close, hands-forward kitchen scene, warm morning light
+   - **Black African woman's hands** (visible warm brown skin tones, natural, unretouched) preparing tomatoes, turmeric root, and medjool dates on a wooden board
+   - Cameroonian home kitchen cues: simple wooden surfaces, linen cloth, natural light
+2. **`src/assets/founder-kitchen.jpg`** — Home page "Our story" section
+   - **Black Cameroonian mother and young daughter** cooking together at a wooden kitchen table
+   - Steaming glass teapot with turmeric tea, small ceramic cups, bowl of dates, tigernuts, turmeric root, open handwritten recipe notebook
+   - Warm window light, plants on the sill, documentary editorial feel
+   - Natural, real family — not stylized/glamour
 
-### How
+Both prompts will explicitly specify "Black African / Cameroonian" subjects, natural skin tones, and a warm documentary tone (not stock, not staged glamour, not AI-slick).
 
-1. Generate a premium editorial photo (`src/assets/learn-featured-kitchen.jpg`, ~1200×960):
-   - Warm morning light in a lived-in home kitchen
-   - Hands preparing everyday whole ingredients (fresh tomatoes, turmeric root, dates, a wooden board)
-   - Soft, natural palette that matches the site's warm/oat/green tokens
-   - Editorial, documentary feel — not staged stock photography
-2. Replace the empty gradient div in `src/pages/Learn.tsx` with an `<img>` inside a rounded frame:
-   - Same `rounded-xl2 ring-1 ring-line` container, `aspect-[5/4]`
-   - `object-cover`, `loading="lazy"`, descriptive alt text
-   - Subtle inner shadow / soft warm overlay to blend with the card
-3. Keep the two-column layout and copy untouched.
+### What stays the same
 
-### Optional follow-up (not in this plan unless you want it)
+- File paths and imports — no code changes needed on `Learn.tsx` or `Home.tsx`
+- Aspect ratios and layout
+- All other photos (product shots, hero scene, team portraits) — untouched
 
-Do the same treatment for the six "Topics" cards below — they're currently text-only. Say the word and I'll add small illustrative thumbnails per topic in a second pass.
+### After generation
+
+Visually verify each image and, if the subjects don't clearly read as Black Africans, regenerate once with a stronger prompt before shipping.
