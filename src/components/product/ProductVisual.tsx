@@ -1,18 +1,13 @@
-import type { ComponentType } from 'react'
 import type { PlaceholderSpec } from '@/types'
-import {
-  DateSugarScene,
-  TurmericScene,
-  TigernutsScene,
-  KitchenHeroScene,
-} from '@/components/illustrations/ProductScenes'
+import dateSugarImg from '@/assets/product-date-sugar.jpg'
+import turmericImg from '@/assets/product-turmeric.jpg'
+import tigernutsImg from '@/assets/product-tigernuts.jpg'
+import heroImg from '@/assets/hero-scene.jpg'
 
-type SceneComponent = ComponentType<{ className?: string; rounded?: string }>
-
-const SCENE_BY_SLUG: Record<string, SceneComponent> = {
-  'date-sugar': DateSugarScene,
-  turmeric: TurmericScene,
-  tigernuts: TigernutsScene,
+const IMG_BY_SLUG: Record<string, string> = {
+  'date-sugar': dateSugarImg,
+  turmeric: turmericImg,
+  tigernuts: tigernutsImg,
 }
 
 interface ProductVisualProps {
@@ -23,21 +18,17 @@ interface ProductVisualProps {
 }
 
 export function ProductVisual({ slug, spec, className = '', rounded = 'rounded-card' }: ProductVisualProps) {
-  const Scene = SCENE_BY_SLUG[slug] ?? DateSugarScene
+  const src = spec.tone === 'kitchen' ? heroImg : IMG_BY_SLUG[slug] ?? dateSugarImg
+  const alt = spec.label ?? slug
 
-  if (spec.tone === 'kitchen') {
-    return <KitchenHeroScene className={className} rounded={rounded} />
-  }
-
-  if (/texture|close-up/i.test(spec.label)) {
-    return (
-      <div className={`relative overflow-hidden ${rounded} ${className}`}>
-        <div className="absolute inset-0 scale-[1.6]">
-          <Scene className="h-full w-full" rounded="rounded-none" />
-        </div>
-      </div>
-    )
-  }
-
-  return <Scene className={className} rounded={rounded} />
+  return (
+    <div className={`relative overflow-hidden ${rounded} bg-oat ${className}`}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="h-full w-full object-cover"
+      />
+    </div>
+  )
 }
