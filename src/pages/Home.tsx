@@ -128,7 +128,14 @@ export function Home() {
       {/* 4. Founder story */}
       <section className="bg-warm py-16 sm:py-24">
         <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <FamilyKitchenScene className="aspect-[4/5] w-full order-2 shadow-card lg:order-1" />
+          <div className="order-2 aspect-[4/5] w-full overflow-hidden rounded-product shadow-card lg:order-1">
+            <img
+              src={founderImg}
+              alt="A warm family kitchen scene with turmeric tea, dates, tigernuts, and a handwritten recipe notebook"
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </div>
           <div className="order-1 lg:order-2">
             <SectionHeading
               eyebrow="Our story"
