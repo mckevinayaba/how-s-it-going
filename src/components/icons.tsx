@@ -74,6 +74,37 @@ export function ShieldIcon(props: IconProps) {
   )
 }
 
+export function CalendarCheckIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="5" width="17" height="15" rx="2.4" />
+      <path d="M3.5 9.5h17M8 3v4M16 3v4" />
+      <path d="M8.5 13.5 10.7 15.7 15.5 11" />
+    </svg>
+  )
+}
+
+export function FirstAidIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="6.5" width="17" height="13" rx="2.4" />
+      <path d="M9 6.5V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5" />
+      <path d="M12 10.5v5M9.5 13h5" />
+    </svg>
+  )
+}
+
+export function TruckIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 7h10v9H3z" />
+      <path d="M13 10.5h4l3.5 3V16h-7.5z" />
+      <circle cx="7" cy="17.5" r="1.7" />
+      <circle cx="17" cy="17.5" r="1.7" />
+    </svg>
+  )
+}
+
 export function AccountIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { getProductBySlug, products } from '@/data/products'
-import { PlaceholderImage } from '@/components/ui/PlaceholderImage'
+import { ProductVisual } from '@/components/product/ProductVisual'
 import { GuidanceNote } from '@/components/ui/GuidanceNote'
 import { ProductCard } from '@/components/product/ProductCard'
 import { formatPrice } from '@/lib/format'
@@ -39,9 +39,10 @@ export function ProductDetail() {
       <div className="container-page grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Image gallery */}
         <div>
-          <PlaceholderImage
+          <ProductVisual
+            slug={product.slug}
             spec={gallery[activeImage]}
-            className="aspect-square w-full"
+            className="aspect-square w-full shadow-card"
           />
           <div className="mt-4 flex gap-3">
             {gallery.map((spec, index) => (
@@ -54,7 +55,7 @@ export function ProductDetail() {
                   activeImage === index ? 'ring-green-700' : 'ring-transparent'
                 }`}
               >
-                <PlaceholderImage spec={spec} rounded="rounded-none" className="h-full w-full" />
+                <ProductVisual slug={product.slug} spec={spec} rounded="rounded-none" className="h-full w-full" />
               </button>
             ))}
           </div>

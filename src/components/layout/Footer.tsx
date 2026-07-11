@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Mascot } from '@/components/Mascot'
 
 const SHOP_LINKS = [
   { to: '/shop', label: 'All products' },
@@ -24,6 +25,7 @@ export function Footer() {
       <div className="container-page grid grid-cols-2 gap-10 py-14 sm:grid-cols-4">
         <div className="col-span-2 sm:col-span-1">
           <Link to="/" className="flex items-center gap-2.5">
+            <Mascot className="h-8 w-8" />
             <span className="font-serif text-lg text-white">
               HappyMe <span className="text-red-400">Health</span>
             </span>
@@ -91,12 +93,12 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/15">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs leading-relaxed text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} HappyMe Health. All rights reserved.</p>
-          <p>
-            Our products are food items, not medical treatments. Always
-            consult a qualified health professional regarding personal health
-            needs.
+          <p className="max-w-xl sm:text-right">
+            HappyMe Health products are food items and do not constitute
+            medical treatment or advice. Always consult a qualified health
+            professional regarding your personal health needs.
           </p>
         </div>
       </div>

@@ -1,11 +1,32 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '@/context/CartContext'
-import { PlaceholderImage } from '@/components/ui/PlaceholderImage'
+import { ProductVisual } from '@/components/product/ProductVisual'
+import { BundleScene } from '@/components/illustrations/ProductScenes'
 import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
+import type { CartLineItem } from '@/types'
 
 const SUPPORT_ADD_ON_CENTS = 500
+
+function CartItemVisual({ item }: { item: CartLineItem }) {
+  if (item.kind === 'bundle') {
+    return (
+      <BundleScene
+        accent={item.slug === 'buy-one-support-one'}
+        className="h-24 w-24 shrink-0"
+        rounded="rounded-card"
+      />
+    )
+  }
+  return (
+    <ProductVisual
+      slug={item.slug}
+      spec={item.image}
+      className="h-24 w-24 shrink-0"
+    />
+  )
+}
 
 export function Cart() {
   const { items, subtotalCents, setQuantity, removeItem } = useCart()
@@ -38,10 +59,7 @@ export function Cart() {
               key={`${item.kind}-${item.slug}-${item.variantLabel ?? ''}`}
               className="flex gap-4 rounded-xl2 bg-white p-4 shadow-soft ring-1 ring-line"
             >
-              <PlaceholderImage
-                spec={item.image}
-                className="h-24 w-24 shrink-0"
-              />
+              <CartItemVisual item={item} />
               <div className="flex flex-1 flex-col justify-between">
                 <div>
                   <h2 className="font-serif text-base text-charcoal">{item.name}</h2>

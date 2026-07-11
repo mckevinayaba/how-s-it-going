@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { PlaceholderImage } from '@/components/ui/PlaceholderImage'
+import { KitchenHeroScene, FamilyKitchenScene } from '@/components/illustrations/ProductScenes'
 import { ProductCard } from '@/components/product/ProductCard'
 import { BundleCard } from '@/components/product/BundleCard'
 import { MetricCard } from '@/components/impact/MetricCard'
@@ -21,12 +21,12 @@ export function Home() {
   return (
     <>
       {/* 1. Hero */}
-      <section className="relative overflow-hidden bg-warm pb-16 pt-12 sm:pb-24 sm:pt-16 lg:pt-24">
-        <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <section className="relative overflow-hidden bg-warm pb-10 pt-8 sm:pb-24 sm:pt-16 lg:pt-24">
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <h1 className="text-balance font-serif text-4xl leading-[1.1] text-charcoal sm:text-5xl lg:text-[3.4rem]">
-              Better everyday food choices for families who take health
-              seriously.
+              Better everyday <span className="text-green-600">food choices</span> for
+              families who take health seriously.
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               HappyMe Health creates nourishing everyday products for
@@ -61,10 +61,19 @@ export function Home() {
             </dl>
           </div>
 
-          <PlaceholderImage
-            spec={{ tone: 'kitchen', label: 'Family kitchen scene' }}
-            className="aspect-[4/5] w-full lg:aspect-[5/6]"
-          />
+          <div className="relative">
+            <KitchenHeroScene className="aspect-[4/5] w-full shadow-lift lg:aspect-[5/6]" />
+            <div className="absolute -bottom-6 left-4 flex items-center gap-3 rounded-xl2 bg-white px-4 py-3 shadow-lift ring-1 ring-line sm:left-6">
+              <div className="flex -space-x-2">
+                <span className="h-7 w-7 rounded-full ring-2 ring-white" style={{ backgroundColor: '#1FA64A' }} />
+                <span className="h-7 w-7 rounded-full ring-2 ring-white" style={{ backgroundColor: '#F0B23D' }} />
+                <span className="h-7 w-7 rounded-full ring-2 ring-white" style={{ backgroundColor: '#B98A4E' }} />
+              </div>
+              <span className="text-xs font-semibold text-charcoal">
+                Date Sugar · Turmeric · Tigernuts
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -109,10 +118,7 @@ export function Home() {
       {/* 4. Founder story */}
       <section className="bg-warm py-16 sm:py-24">
         <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <PlaceholderImage
-            spec={{ tone: 'founder', label: 'Founder portrait' }}
-            className="aspect-[4/5] w-full order-2 lg:order-1"
-          />
+          <FamilyKitchenScene className="aspect-[4/5] w-full order-2 shadow-card lg:order-1" />
           <div className="order-1 lg:order-2">
             <SectionHeading
               eyebrow="Our story"
