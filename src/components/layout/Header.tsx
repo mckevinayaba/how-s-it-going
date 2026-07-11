@@ -16,19 +16,18 @@ export function Header() {
   const { itemCount } = useCart()
 
   return (
-    <header className="sticky top-0 z-40 hidden border-b border-line bg-warm/90 backdrop-blur-md lg:block">
-      <div className="container-page flex h-20 items-center justify-between">
+    <header className="sticky top-0 z-40 border-b border-line bg-warm/90 backdrop-blur-md">
+      <div className="container-page flex h-24 items-center justify-between gap-4 sm:h-28 lg:h-32">
         <Link to="/" aria-label="HappyMe Health — home" className="flex items-center">
           <img
             src={logo}
             alt="HappyMe Health"
-            className="h-14 w-auto object-contain"
+            className="h-20 w-auto object-contain sm:h-24 lg:h-28"
             draggable={false}
           />
         </Link>
 
-
-        <nav aria-label="Primary" className="flex items-center gap-9">
+        <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -50,7 +49,7 @@ export function Header() {
           <Link
             to="/account"
             aria-label="Account"
-            className="text-charcoal transition-colors hover:text-green-700"
+            className="hidden text-charcoal transition-colors hover:text-green-700 sm:inline-flex"
           >
             <AccountIcon className="h-5 w-5" />
           </Link>
@@ -59,14 +58,14 @@ export function Header() {
             aria-label={`Basket, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
             className="relative text-charcoal transition-colors hover:text-green-700"
           >
-            <CartIcon className="h-5 w-5" />
+            <CartIcon className="h-6 w-6" />
             {itemCount > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-pill bg-red-500 px-1 text-[0.6rem] font-semibold text-white">
                 {itemCount}
               </span>
             )}
           </Link>
-          <Button to="/shop" size="md" className="ml-1">
+          <Button to="/shop" size="md" className="ml-1 hidden lg:inline-flex">
             Shop products
           </Button>
         </div>
@@ -74,3 +73,4 @@ export function Header() {
     </header>
   )
 }
+
