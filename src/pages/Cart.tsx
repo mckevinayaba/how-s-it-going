@@ -145,7 +145,7 @@ export function Cart() {
             Request order
           </Button>
           <p className="mt-3 text-center text-xs text-muted">
-            No online payment is required at this stage.
+            Order online. Confirm by WhatsApp. Pay after confirmation.
           </p>
           <Link
             to="/shop"
