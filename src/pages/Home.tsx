@@ -16,6 +16,7 @@ import { impactMetrics } from '@/data/impact'
 import { supportOptions } from '@/data/support'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 const PROOF_STRIPS = [
   { label: 'Natural everyday products', Icon: LeafIcon },
@@ -26,6 +27,10 @@ const PROOF_STRIPS = [
 const ORDER_FLOW_STEPS = ['Order online', 'Confirm by WhatsApp', 'Pay after confirmation']
 
 export function Home() {
+  usePageMeta(
+    'HappyMe Health | Better Everyday Food Choices for Families',
+    'HappyMe Health creates nourishing everyday products for families making more mindful kitchen choices, while supporting practical health outreach in communities with limited access to care.',
+  )
   const { addItem } = useCart()
   const navigate = useNavigate()
   const starterPack = getBundleBySlug('family-health-starter-pack')

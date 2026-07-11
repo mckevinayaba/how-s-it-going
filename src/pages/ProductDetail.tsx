@@ -4,10 +4,14 @@ import { getProductBySlug, products } from '@/data/products'
 import { ProductVisual } from '@/components/product/ProductVisual'
 import { GuidanceNote } from '@/components/ui/GuidanceNote'
 import { ProductCard } from '@/components/product/ProductCard'
+import { LikeButton } from '@/components/product/LikeButton'
+import { ShareButton } from '@/components/product/ShareButton'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { buildProductUrl } from '@/lib/share'
 import { ChatIcon, ShopIcon } from '@/components/icons'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -18,6 +22,11 @@ export function ProductDetail() {
   const [variantIndex, setVariantIndex] = useState(0)
   const [reorderList, setReorderList] = useState(false)
   const { addItem } = useCart()
+
+  usePageMeta(
+    product ? `${product.name} | HappyMe Health` : 'Product | HappyMe Health',
+    product ? `${product.shortDescription} ${product.longDescription}` : undefined,
+  )
 
   if (!product) {
     return <Navigate to="/shop" replace />
@@ -44,6 +53,11 @@ export function ProductDetail() {
 
   const whatsappHelpLink = buildWhatsAppLink(
     `Hi, I'd like some help choosing between HappyMe Health products. I'm interested in ${product.name}.`,
+  )
+
+  const productUrl = buildProductUrl(product.slug)
+  const whatsappShareLink = buildWhatsAppLink(
+    `${product.name}\n\n${product.shortDescription}\n\n${productUrl}\n\nI found this on HappyMe Health and thought you might like it.`,
   )
 
   return (
@@ -75,9 +89,30 @@ export function ProductDetail() {
 
         {/* Details */}
         <div>
-          <span className="inline-block rounded-pill bg-red-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-red-600">
-            {product.category}
-          </span>
+          <div className="flex items-start justify-between gap-4">
+            <span className="inline-block rounded-pill bg-red-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-red-600">
+              {product.category}
+            </span>
+            <div className="flex shrink-0 gap-2">
+              <LikeButton slug={product.slug} name={product.name} className="!bg-oat" />
+              <ShareButton
+                name={product.name}
+                title={product.name}
+                text={product.shortDescription}
+                url={productUrl}
+                className="!bg-oat"
+              />
+              <a
+                href={whatsappShareLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Share ${product.name} on WhatsApp`}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-oat text-charcoal/70 shadow-soft transition-transform duration-200 ease-premium hover:scale-110 hover:text-green-700 active:scale-95"
+              >
+                <ChatIcon className="h-[18px] w-[18px]" strokeWidth={1.8} />
+              </a>
+            </div>
+          </div>
           <h1 className="mt-3 font-serif text-3xl text-charcoal sm:text-4xl">
             {product.name}
           </h1>

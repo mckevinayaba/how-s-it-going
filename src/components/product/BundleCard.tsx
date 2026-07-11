@@ -1,13 +1,31 @@
+import { useNavigate } from 'react-router-dom'
 import type { Bundle } from '@/types'
 import bundleImg from '@/assets/bundle-scene.jpg'
 import { ImpactIcon } from '@/components/icons'
-
+import { ShareButton } from '@/components/product/ShareButton'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
 
 export function BundleCard({ bundle }: { bundle: Bundle }) {
   const { addItem } = useCart()
+  const navigate = useNavigate()
   const isImpact = Boolean(bundle.isImpactBundle)
+
+  const addBundleToBasket = () =>
+    addItem({
+      kind: 'bundle',
+      slug: bundle.slug,
+      name: bundle.name,
+      priceCents: bundle.priceCents,
+      image: bundle.image,
+    })
+
+  const handleRequestBundle = () => {
+    addBundleToBasket()
+    navigate('/request-order')
+  }
+
+  const shopUrl = typeof window !== 'undefined' ? `${window.location.origin}/shop` : '/shop'
 
   return (
     <article
@@ -25,6 +43,14 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
         {isImpact && (
           <div className="absolute inset-0 bg-gradient-to-t from-red-500/25 via-transparent to-transparent" />
         )}
+        <div className="absolute right-3 top-3">
+          <ShareButton
+            name={bundle.name}
+            title={bundle.name}
+            text={bundle.description}
+            url={shopUrl}
+          />
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-6">
@@ -53,22 +79,23 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
             Every purchase contributes one wellness pack toward our next community outreach activity.
           </p>
         )}
-        <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="font-serif text-lg text-green-700">
-            {formatPrice(bundle.priceCents)}
-          </span>
+
+        <span className="mt-auto pt-3 font-serif text-lg text-green-700">
+          {formatPrice(bundle.priceCents)}
+        </span>
+
+        <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() =>
-              addItem({
-                kind: 'bundle',
-                slug: bundle.slug,
-                name: bundle.name,
-                priceCents: bundle.priceCents,
-                image: bundle.image,
-              })
-            }
-            className={`rounded-pill px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 ease-premium hover:shadow-lift active:scale-[0.98] ${
+            onClick={handleRequestBundle}
+            className="rounded-pill border border-green-700/30 px-4 py-2.5 text-sm font-semibold text-green-700 transition-colors duration-300 ease-premium hover:bg-green-700/5"
+          >
+            Request bundle
+          </button>
+          <button
+            type="button"
+            onClick={addBundleToBasket}
+            className={`rounded-pill px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 ease-premium hover:shadow-lift active:scale-[0.98] ${
               isImpact ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-700'
             }`}
           >

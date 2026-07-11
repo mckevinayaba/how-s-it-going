@@ -11,10 +11,18 @@ import type { CartLineItem } from '@/types'
 
 const STORAGE_KEY = 'happyme-cart-v1'
 
+export const SUPPORT_ADD_ON_CENTS = 500
+
+export type SupportAddOnChoice = 'contribute' | 'ask-me' | 'not-today'
+
 interface CartContextValue {
   items: CartLineItem[]
   itemCount: number
   subtotalCents: number
+  supportAddOn: SupportAddOnChoice
+  setSupportAddOn: (choice: SupportAddOnChoice) => void
+  supportAddOnCents: number
+  totalCents: number
   addItem: (item: Omit<CartLineItem, 'quantity'>, quantity?: number) => void
   removeItem: (slug: string, variantLabel?: string) => void
   setQuantity: (slug: string, quantity: number, variantLabel?: string) => void
@@ -39,6 +47,7 @@ function lineKey(slug: string, variantLabel?: string) {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLineItem[]>(() => readStoredCart())
+  const [supportAddOn, setSupportAddOn] = useState<SupportAddOnChoice>('not-today')
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
@@ -94,7 +103,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [],
   )
 
-  const clearCart = useCallback(() => setItems([]), [])
+  const clearCart = useCallback(() => {
+    setItems([])
+    setSupportAddOn('not-today')
+  }, [])
 
   const itemCount = useMemo(
     () => items.reduce((sum, line) => sum + line.quantity, 0),
@@ -106,9 +118,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [items],
   )
 
+  const supportAddOnCents = supportAddOn === 'contribute' ? SUPPORT_ADD_ON_CENTS : 0
+  const totalCents = subtotalCents + supportAddOnCents
+
   const value = useMemo(
-    () => ({ items, itemCount, subtotalCents, addItem, removeItem, setQuantity, clearCart }),
-    [items, itemCount, subtotalCents, addItem, removeItem, setQuantity, clearCart],
+    () => ({
+      items,
+      itemCount,
+      subtotalCents,
+      supportAddOn,
+      setSupportAddOn,
+      supportAddOnCents,
+      totalCents,
+      addItem,
+      removeItem,
+      setQuantity,
+      clearCart,
+    }),
+    [items, itemCount, subtotalCents, supportAddOn, supportAddOnCents, totalCents, addItem, removeItem, setQuantity, clearCart],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

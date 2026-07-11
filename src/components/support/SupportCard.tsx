@@ -13,7 +13,10 @@ export function SupportCard({ option }: { option: SupportOption }) {
   const Icon = ICON_BY_SLUG[option.slug] ?? CalendarCheckIcon
 
   return (
-    <div className="group flex flex-col rounded-xl2 bg-white p-6 shadow-card ring-1 ring-line transition-all duration-300 ease-premium hover:-translate-y-1 hover:shadow-lift">
+    <div
+      id={option.slug}
+      className="group scroll-mt-24 flex flex-col rounded-xl2 bg-white p-6 shadow-card ring-1 ring-line transition-all duration-300 ease-premium hover:-translate-y-1 hover:shadow-lift"
+    >
       <span className="flex h-11 w-11 items-center justify-center rounded-full bg-green-50 text-green-700">
         <Icon className="h-5 w-5" strokeWidth={1.7} />
       </span>

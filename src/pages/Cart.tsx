@@ -1,14 +1,12 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCart } from '@/context/CartContext'
+import { useCart, SUPPORT_ADD_ON_CENTS } from '@/context/CartContext'
 import { ProductVisual } from '@/components/product/ProductVisual'
 import bundleImg from '@/assets/bundle-scene.jpg'
 import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
 import { SUPPORT_ADD_ON_CHOICES } from '@/data/orderOptions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import type { CartLineItem } from '@/types'
-
-const SUPPORT_ADD_ON_CENTS = 500
 
 function CartItemVisual({ item }: { item: CartLineItem }) {
   if (item.kind === 'bundle') {
@@ -28,10 +26,9 @@ function CartItemVisual({ item }: { item: CartLineItem }) {
 }
 
 export function Cart() {
-  const { items, subtotalCents, setQuantity, removeItem } = useCart()
-  const [supportChoice, setSupportChoice] = useState<string>('not-today')
-
-  const total = subtotalCents + (supportChoice === 'contribute' ? SUPPORT_ADD_ON_CENTS : 0)
+  usePageMeta('Your Basket | HappyMe Health')
+  const { items, subtotalCents, totalCents, setQuantity, removeItem, supportAddOn, setSupportAddOn } =
+    useCart()
 
   if (items.length === 0) {
     return (
@@ -121,8 +118,10 @@ export function Cart() {
                     type="radio"
                     name="support-add-on"
                     value={choice.value}
-                    checked={supportChoice === choice.value}
-                    onChange={(event) => setSupportChoice(event.target.value)}
+                    checked={supportAddOn === choice.value}
+                    onChange={(event) =>
+                      setSupportAddOn(event.target.value as typeof supportAddOn)
+                    }
                     className="h-4 w-4 border-green-500/30 text-green-500 focus:ring-green-500"
                   />
                   {choice.label}
@@ -138,14 +137,16 @@ export function Cart() {
 
           <div className="mt-4 flex justify-between border-t border-line pt-4 font-serif text-lg text-charcoal">
             <span>Total</span>
-            <span>{formatPrice(total)}</span>
+            <span>{formatPrice(totalCents)}</span>
           </div>
 
           <Button to="/request-order" size="lg" className="mt-6 w-full">
             Request order
           </Button>
           <p className="mt-3 text-center text-xs text-muted">
-            Order online. Confirm by WhatsApp. Pay after confirmation.
+            No online payment is required at this stage. Our team will
+            contact you to confirm availability, delivery, and payment
+            options.
           </p>
           <Link
             to="/shop"

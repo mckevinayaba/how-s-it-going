@@ -1,14 +1,26 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '@/types'
 import { ProductVisual } from '@/components/product/ProductVisual'
+import { LikeButton } from '@/components/product/LikeButton'
+import { ShareButton } from '@/components/product/ShareButton'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
+import { buildProductUrl } from '@/lib/share'
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart()
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-product bg-white shadow-card ring-1 ring-line transition-all duration-300 ease-premium hover:-translate-y-1 hover:shadow-lift">
+    <article className="group relative flex flex-col overflow-hidden rounded-product bg-white shadow-card ring-1 ring-line transition-all duration-300 ease-premium hover:-translate-y-1 hover:shadow-lift">
+      <div className="absolute right-3 top-3 z-10 flex gap-2">
+        <LikeButton slug={product.slug} name={product.name} />
+        <ShareButton
+          name={product.name}
+          title={product.name}
+          text={product.shortDescription}
+          url={buildProductUrl(product.slug)}
+        />
+      </div>
       <Link to={`/product/${product.slug}`} className="block overflow-hidden">
         <div className="aspect-[4/3] w-full overflow-hidden">
           <ProductVisual

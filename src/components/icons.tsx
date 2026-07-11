@@ -11,6 +11,25 @@ const base = {
   strokeLinejoin: 'round' as const,
 }
 
+export function HeartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 20c-4-2.6-8-6-8-10.6A4.4 4.4 0 0 1 12 6.5 4.4 4.4 0 0 1 20 9.4C20 14 16 17.4 12 20Z" />
+    </svg>
+  )
+}
+
+export function ShareIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="18" cy="6" r="2.6" />
+      <circle cx="6" cy="12" r="2.6" />
+      <circle cx="18" cy="18" r="2.6" />
+      <path d="M8.3 10.7 15.7 7.3M8.3 13.3 15.7 16.7" />
+    </svg>
+  )
+}
+
 export function ChatIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>

@@ -8,6 +8,8 @@ import { HowOrderingWorks } from '@/components/order/HowOrderingWorks'
 import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { CONTACT_METHODS, PAYMENT_METHODS } from '@/data/orderOptions'
+import { submitOrderRequest, buildCartLinePayload, type OrderRequestPayload } from '@/lib/submissions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import type { CartLineItem } from '@/types'
 
 interface OrderConfirmation {
@@ -23,8 +25,10 @@ const inputClass =
 const labelClass = 'text-sm font-medium text-charcoal'
 
 export function OrderRequest() {
-  const { items, subtotalCents, clearCart } = useCart()
+  usePageMeta('Request Order | HappyMe Health')
+  const { items, subtotalCents, totalCents, supportAddOn, supportAddOnCents, clearCart } = useCart()
   const [confirmation, setConfirmation] = useState<OrderConfirmation | null>(null)
+  const [submitting, setSubmitting] = useState(false)
 
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
@@ -38,13 +42,37 @@ export function OrderRequest() {
   const [notes, setNotes] = useState('')
   const [consent, setConsent] = useState(false)
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    if (!consent || items.length === 0) return
+    if (!consent || items.length === 0 || submitting) return
+
+    const payload: OrderRequestPayload = {
+      fullName,
+      phone,
+      whatsapp,
+      email,
+      city,
+      quarter,
+      addressOrPickup: address,
+      items: buildCartLinePayload(items),
+      subtotalCents,
+      supportAddOn,
+      supportAddOnCents,
+      totalCents,
+      contactMethod,
+      paymentMethod,
+      notes,
+      consent,
+      submittedAt: new Date().toISOString(),
+    }
+
+    setSubmitting(true)
+    await submitOrderRequest(payload)
+    setSubmitting(false)
 
     setConfirmation({
       items,
-      totalCents: subtotalCents,
+      totalCents,
       name: fullName,
       city,
       contactMethod,
@@ -271,8 +299,8 @@ export function OrderRequest() {
           </fieldset>
 
           <div>
-            <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!consent}>
-              Submit order request
+            <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!consent || submitting}>
+              {submitting ? 'Submitting...' : 'Submit order request'}
             </Button>
             <p className="mt-3 text-sm text-muted">
               No online payment is required at this stage. Our team will
@@ -282,7 +310,12 @@ export function OrderRequest() {
         </form>
 
         <aside className="space-y-6">
-          <OrderSummary items={items} totalCents={subtotalCents} />
+          <OrderSummary
+            items={items}
+            subtotalCents={subtotalCents}
+            supportAddOnCents={supportAddOnCents}
+            totalCents={totalCents}
+          />
           <HowOrderingWorks />
           <Link
             to="/cart"

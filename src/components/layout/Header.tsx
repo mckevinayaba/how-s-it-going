@@ -48,7 +48,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <Link
             to="/account"
-            aria-label="Account"
+            aria-label="Order follow up"
             className="hidden text-charcoal transition-colors hover:text-green-700 sm:inline-flex"
           >
             <AccountIcon className="h-5 w-5" />

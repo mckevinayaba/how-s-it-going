@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react'
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { CheckBadgeIcon } from '@/components/icons'
+import { submitNewsletterSignup } from '@/lib/submissions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 const TOPICS = [
   {
@@ -40,13 +42,18 @@ const QUICK_TIPS = [
 ]
 
 export function Learn() {
+  usePageMeta(
+    'Learn | HappyMe Health',
+    'Practical, honest thinking about food, family health, and everyday kitchen habits from HappyMe Health. No medical claims, just useful ideas.',
+  )
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [subscribed, setSubscribed] = useState(false)
 
-  const handleSubscribe = (e: FormEvent) => {
+  const handleSubscribe = async (e: FormEvent) => {
     e.preventDefault()
     if (!email) return
+    await submitNewsletterSignup({ email, firstName, submittedAt: new Date().toISOString() })
     setSubscribed(true)
   }
 

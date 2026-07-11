@@ -6,6 +6,7 @@ import { BundleCard } from '@/components/product/BundleCard'
 import { products } from '@/data/products'
 import { bundles } from '@/data/bundles'
 import type { ProductCategory } from '@/types'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 type Filter = 'all' | ProductCategory | 'bundles'
 
@@ -26,6 +27,10 @@ const SHOP_BY_NEED: { label: string; filter: Filter }[] = [
 ]
 
 export function Shop() {
+  usePageMeta(
+    'Shop | HappyMe Health',
+    'Browse HappyMe Health products — Date Sugar, Turmeric, Tigernuts, and household bundles. Add to basket and request your order today.',
+  )
   const [filter, setFilter] = useState<Filter>('all')
 
   const visibleProducts = useMemo(() => {

@@ -5,6 +5,7 @@ import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { CONTACT_METHODS } from '@/data/orderOptions'
 import { submitContactInquiry, type ContactInquiryPayload } from '@/lib/submissions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 const INQUIRY_TYPES = [
   'Product order',
@@ -40,6 +41,10 @@ const inputClass =
 const labelClass = 'text-sm font-medium text-charcoal'
 
 export function Contact() {
+  usePageMeta(
+    'Contact | HappyMe Health',
+    'Get in touch with HappyMe Health about products, orders, delivery, support, or partnership. Reach us by WhatsApp, phone, or message.',
+  )
   const [submitted, setSubmitted] = useState(false)
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')

@@ -5,18 +5,54 @@ import { SupportCard } from '@/components/support/SupportCard'
 import { CheckBadgeIcon } from '@/components/icons'
 import { supportOptions } from '@/data/support'
 import { SUPPORT_INTERESTS, CONTACT_METHODS } from '@/data/orderOptions'
+import { submitSupportInquiry, type SupportInquiryPayload } from '@/lib/submissions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 const inputClass =
   'mt-1.5 w-full rounded-card border border-line bg-white px-4 py-3 text-base text-charcoal placeholder:text-muted/60 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20'
 const labelClass = 'text-sm font-medium text-charcoal'
 
 export function Support() {
+  usePageMeta(
+    'Support Outreach | HappyMe Health',
+    'Support HappyMe Health outreach — sponsor a screening day, contribute supplies, help with transport, or partner on a larger programme.',
+  )
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const [fullName, setFullName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [organisation, setOrganisation] = useState('')
+  const [supportInterest, setSupportInterest] = useState<string>(SUPPORT_INTERESTS[0])
+  const [amountOrType, setAmountOrType] = useState('')
+  const [contactMethod, setContactMethod] = useState<string>(CONTACT_METHODS[0])
+  const [message, setMessage] = useState('')
   const [consent, setConsent] = useState(false)
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    if (!consent) return
+    if (!consent || submitting) return
+
+    const payload: SupportInquiryPayload = {
+      fullName,
+      phone,
+      whatsapp: '',
+      email,
+      organisation,
+      country: '',
+      city: '',
+      supportInterest,
+      amountOrType,
+      contactMethod,
+      message,
+      consent,
+      submittedAt: new Date().toISOString(),
+    }
+
+    setSubmitting(true)
+    await submitSupportInquiry(payload)
+    setSubmitting(false)
     setSubmitted(true)
   }
 
@@ -65,23 +101,51 @@ export function Support() {
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <label className="block">
                     <span className={labelClass}>Full name</span>
-                    <input required placeholder="Jane Doe" className={inputClass} />
+                    <input
+                      required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="Jane Doe"
+                      className={inputClass}
+                    />
                   </label>
                   <label className="block">
                     <span className={labelClass}>Phone number</span>
-                    <input required type="tel" placeholder="6XX XXX XXX" className={inputClass} />
+                    <input
+                      required
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="6XX XXX XXX"
+                      className={inputClass}
+                    />
                   </label>
                   <label className="block">
                     <span className={labelClass}>Email</span>
-                    <input type="email" placeholder="jane@example.com" className={inputClass} />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="jane@example.com"
+                      className={inputClass}
+                    />
                   </label>
                   <label className="block">
                     <span className={labelClass}>Organisation, if any</span>
-                    <input placeholder="Company, clinic, NGO..." className={inputClass} />
+                    <input
+                      value={organisation}
+                      onChange={(e) => setOrganisation(e.target.value)}
+                      placeholder="Company, clinic, NGO..."
+                      className={inputClass}
+                    />
                   </label>
                   <label className="block">
                     <span className={labelClass}>Support interest</span>
-                    <select defaultValue={SUPPORT_INTERESTS[0]} className={inputClass}>
+                    <select
+                      value={supportInterest}
+                      onChange={(e) => setSupportInterest(e.target.value)}
+                      className={inputClass}
+                    >
                       {SUPPORT_INTERESTS.map((interest) => (
                         <option key={interest} value={interest}>
                           {interest}
@@ -91,11 +155,20 @@ export function Support() {
                   </label>
                   <label className="block">
                     <span className={labelClass}>Amount or type of support</span>
-                    <input placeholder="e.g. 30,000 FCFA, transport for one day" className={inputClass} />
+                    <input
+                      value={amountOrType}
+                      onChange={(e) => setAmountOrType(e.target.value)}
+                      placeholder="e.g. 30,000 FCFA, transport for one day"
+                      className={inputClass}
+                    />
                   </label>
                   <label className="block sm:col-span-2">
                     <span className={labelClass}>Preferred contact method</span>
-                    <select defaultValue={CONTACT_METHODS[0]} className={inputClass}>
+                    <select
+                      value={contactMethod}
+                      onChange={(e) => setContactMethod(e.target.value)}
+                      className={inputClass}
+                    >
                       {CONTACT_METHODS.map((method) => (
                         <option key={method} value={method}>
                           {method}
@@ -105,7 +178,13 @@ export function Support() {
                   </label>
                   <label className="block sm:col-span-2">
                     <span className={labelClass}>Message</span>
-                    <textarea rows={4} placeholder="Tell us more about how you'd like to help" className={inputClass} />
+                    <textarea
+                      rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Tell us more about how you'd like to help"
+                      className={inputClass}
+                    />
                   </label>
                 </div>
 
@@ -120,8 +199,8 @@ export function Support() {
                   <span>I agree to let HappyMe Health contact me about this inquiry.</span>
                 </label>
 
-                <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!consent}>
-                  Send inquiry
+                <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!consent || submitting}>
+                  {submitting ? 'Sending...' : 'Send inquiry'}
                 </Button>
               </form>
             </>

@@ -162,7 +162,7 @@ export const impactSupportOptions: ImpactSupportOption[] = [
     icon: 'screening',
   },
   {
-    slug: 'support-supplies-and-kits',
+    slug: 'first-aid-kits-and-supplies',
     title: 'Support supplies and kits',
     description:
       'Contribute to first aid kits, sanitary products, screening materials, and consumables needed during outreach.',
@@ -170,7 +170,7 @@ export const impactSupportOptions: ImpactSupportOption[] = [
     icon: 'supplies',
   },
   {
-    slug: 'help-with-transport',
+    slug: 'transport-and-logistics',
     title: 'Help with transport',
     description:
       'Support transport for coordinators, volunteers, and materials to reach communities where roads, distance, and weather create barriers.',
@@ -191,17 +191,64 @@ export interface ImpactReport {
   slug: string
   title: string
   tags: string[]
+  subtitle: string
+  keyMetric: string
+  overview: string
+  whatHappened: string[]
+  challenges: string[]
+  supportNeeded: string[]
 }
 
 export const impactReports: ImpactReport[] = [
   {
-    slug: 'buea-bomaka-report',
+    slug: 'buea-bomaka',
     title: 'Buea Bomaka Project Report',
+    subtitle: 'Breast cancer awareness and clinical examination activity',
     tags: ['Breast cancer awareness', 'Clinical examinations', 'Community outreach'],
+    keyMetric: '52 people examined out of a target of 100',
+    overview:
+      'The activity focused on breast cancer awareness and free clinical examinations. The report recorded 52 beneficiaries reached, representing 52 percent of the 100 person target.',
+    whatHappened: [
+      'A community awareness session introduced breast health education and encouraged early detection habits.',
+      'Local health workers and volunteers carried out free clinical breast examinations on site.',
+      '52 people were examined and received individual feedback and guidance from health workers.',
+    ],
+    challenges: [
+      'Turnout fell short of the 100 person target, partly due to travel distance and timing.',
+      'Limited transport and materials constrained how many additional community points could be reached in one day.',
+    ],
+    supportNeeded: [
+      'Transport support to extend outreach to more neighbourhoods on the same activity day.',
+      'Additional screening materials and consumables to examine more people per session.',
+      'Volunteer coordination support to mobilise a larger turnout ahead of time.',
+    ],
   },
   {
-    slug: 'pendamboko-report',
-    title: 'Pendamboko Project Report',
+    slug: 'pendamboko',
+    title: 'GBSS Pendamboko Project Report',
+    subtitle: 'Breast cancer awareness session with school health club',
     tags: ['School health club', 'Breast cancer awareness', 'Student outreach'],
+    keyMetric: '30 targeted students reached, 83.3 percent project success rate',
+    overview:
+      'All 30 targeted health club students were present. The intervention included sensitisation, volunteer mobilisation, administrative clearance, sanitary product distribution, and student participation.',
+    whatHappened: [
+      'The team secured administrative clearance with the school ahead of the session.',
+      'Volunteers were mobilised to support sensitisation and on-the-day coordination.',
+      'All 30 targeted GBSS Pendamboko health club students attended a breast cancer awareness session.',
+      'Sanitary products were distributed to participating students.',
+    ],
+    challenges: [
+      'Coordinating around the school schedule required careful advance planning and administrative follow up.',
+      'Sustaining student engagement after a single session remains an open question without a follow-up structure.',
+    ],
+    supportNeeded: [
+      'Support to extend the health club model to more schools in the region.',
+      'Recurring supply of sanitary products and awareness materials for future sessions.',
+      'Funding for a structured follow-up visit to reinforce the initial session.',
+    ],
   },
 ]
+
+export function getImpactReportBySlug(slug: string): ImpactReport | undefined {
+  return impactReports.find((report) => report.slug === slug)
+}

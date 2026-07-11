@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button'
 import { CheckBadgeIcon } from '@/components/icons'
 import { CONTACT_METHODS } from '@/data/orderOptions'
 import { submitOrderFollowUp, type OrderFollowUpPayload } from '@/lib/submissions'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 const NEED_OPTIONS = [
   'I submitted an order request',
@@ -17,6 +18,10 @@ const inputClass =
 const labelClass = 'text-sm font-medium text-charcoal'
 
 export function Account() {
+  usePageMeta(
+    'Order Follow Up | HappyMe Health',
+    'Follow up on a HappyMe Health order request — check delivery, change an order, or ask about product availability.',
+  )
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [whatsapp, setWhatsapp] = useState('')

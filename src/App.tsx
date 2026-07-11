@@ -4,6 +4,7 @@ import { Home } from '@/pages/Home'
 import { Shop } from '@/pages/Shop'
 import { ProductDetail } from '@/pages/ProductDetail'
 import { Impact } from '@/pages/Impact'
+import { ReportDetail } from '@/pages/ReportDetail'
 import { Learn } from '@/pages/Learn'
 import { About } from '@/pages/About'
 import { Support } from '@/pages/Support'
@@ -21,6 +22,7 @@ function App() {
         <Route path="shop" element={<Shop />} />
         <Route path="product/:slug" element={<ProductDetail />} />
         <Route path="impact" element={<Impact />} />
+        <Route path="impact/reports/:slug" element={<ReportDetail />} />
         <Route path="learn" element={<Learn />} />
         <Route path="about" element={<About />} />
         <Route path="support" element={<Support />} />

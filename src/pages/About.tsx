@@ -2,6 +2,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Button } from '@/components/ui/Button'
 import { TeamMemberCard } from '@/components/team/TeamMemberCard'
 import { teamMembers } from '@/data/team'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 type Pillar = {
   eyebrow: string
@@ -33,6 +34,10 @@ const pillars: Pillar[] = [
 ]
 
 export function About() {
+  usePageMeta(
+    'About | HappyMe Health',
+    'Meet the HappyMe Health team and learn our philosophy, mission, and history — a brand born inside a family kitchen and built for healthier homes and communities.',
+  )
   return (
     <>
       {/* Philosophy hero */}

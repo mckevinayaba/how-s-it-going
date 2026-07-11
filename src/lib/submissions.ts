@@ -91,6 +91,12 @@ export interface OrderFollowUpPayload {
   submittedAt: string
 }
 
+export interface NewsletterSignupPayload {
+  email: string
+  firstName: string
+  submittedAt: string
+}
+
 export function buildCartLinePayload(items: CartLineItem[]) {
   return items.map((item) => ({
     slug: item.slug,
@@ -117,3 +123,4 @@ export const submitOrderRequest = (p: OrderRequestPayload) => fakePost(p)
 export const submitSupportInquiry = (p: SupportInquiryPayload) => fakePost(p)
 export const submitContactInquiry = (p: ContactInquiryPayload) => fakePost(p)
 export const submitOrderFollowUp = (p: OrderFollowUpPayload) => fakePost(p)
+export const submitNewsletterSignup = (p: NewsletterSignupPayload) => fakePost(p)

@@ -6,6 +6,7 @@ import { ProjectStoryCard } from '@/components/impact/ProjectStoryCard'
 import { InsightCard } from '@/components/impact/InsightCard'
 import { ImpactSupportCard } from '@/components/impact/ImpactSupportCard'
 import { ReportCard } from '@/components/impact/ReportCard'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import {
   impactPillars,
   projectStories,
@@ -15,6 +16,10 @@ import {
 } from '@/data/impact'
 
 export function Impact() {
+  usePageMeta(
+    'Impact | HappyMe Health',
+    "HappyMe Health's impact work: community health awareness, clinical screening, and outreach in Buea Bomaka and Pendamboko. See documented results and support the next outreach.",
+  )
   return (
     <>
       {/* 1. Hero */}
