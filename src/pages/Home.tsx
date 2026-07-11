@@ -64,7 +64,15 @@ export function Home() {
           </div>
 
           <div className="relative">
-            <KitchenHeroScene className="aspect-[4/5] w-full shadow-lift lg:aspect-[5/6]" />
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-product shadow-lift lg:aspect-[5/6]">
+              <img
+                src={heroImg}
+                alt="Date Sugar, Turmeric, and Tigernuts on a warm kitchen counter"
+                width={1200}
+                height={1408}
+                className="h-full w-full object-cover"
+              />
+            </div>
             <div className="absolute -bottom-6 left-4 flex items-center gap-3 rounded-xl2 bg-white px-4 py-3 shadow-lift ring-1 ring-line sm:left-6">
               <div className="flex -space-x-2">
                 <span className="h-7 w-7 rounded-full ring-2 ring-white" style={{ backgroundColor: '#1FA64A' }} />
