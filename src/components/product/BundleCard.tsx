@@ -1,6 +1,7 @@
 import type { Bundle } from '@/types'
-import { BundleScene } from '@/components/illustrations/ProductScenes'
+import bundleImg from '@/assets/bundle-scene.jpg'
 import { ImpactIcon } from '@/components/icons'
+
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
 
@@ -14,13 +15,18 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
         isImpact ? 'ring-red-200' : 'ring-line'
       }`}
     >
-      <div className="aspect-[16/10] w-full overflow-hidden">
-        <BundleScene
-          accent={isImpact}
-          rounded="rounded-none"
-          className="h-full w-full transition-transform duration-500 ease-premium group-hover:scale-[1.05]"
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
+        <img
+          src={bundleImg}
+          alt={bundle.name}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 ease-premium group-hover:scale-[1.05]"
         />
+        {isImpact && (
+          <div className="absolute inset-0 bg-gradient-to-t from-red-500/25 via-transparent to-transparent" />
+        )}
       </div>
+
       <div className="flex flex-1 flex-col gap-3 p-6">
         {isImpact && (
           <span className="flex w-fit items-center gap-1.5 rounded-pill bg-red-50 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-red-600">
