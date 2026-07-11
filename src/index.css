@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-warm text-charcoal font-sans antialiased;
+    font-feature-settings: 'ss01' on;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-charcoal;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    @apply bg-green-100 text-charcoal;
+  }
+
+  /* Reserve space for the fixed mobile bottom nav so content never hides behind it */
+  :root {
+    --bottom-nav-height: 4.25rem;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 sm:px-8 lg:px-10;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
