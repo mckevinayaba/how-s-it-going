@@ -1,8 +1,8 @@
 import { NavLink, Link } from 'react-router-dom'
 import { AccountIcon, CartIcon } from '@/components/icons'
-import { Mascot } from '@/components/Mascot'
 import { useCart } from '@/context/CartContext'
 import { Button } from '@/components/ui/Button'
+import logo from '@/assets/happyme-logo.png'
 
 const NAV_LINKS = [
   { to: '/shop', label: 'Shop' },
@@ -18,12 +18,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 hidden border-b border-line bg-warm/90 backdrop-blur-md lg:block">
       <div className="container-page flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5">
-          <Mascot className="h-9 w-9" />
-          <span className="font-serif text-lg tracking-tight text-green-700">
-            HappyMe <span className="text-red-600">Health</span>
-          </span>
+        <Link to="/" aria-label="HappyMe Health — home" className="flex items-center">
+          <img
+            src={logo}
+            alt="HappyMe Health"
+            className="h-14 w-auto object-contain"
+            draggable={false}
+          />
         </Link>
+
 
         <nav aria-label="Primary" className="flex items-center gap-9">
           {NAV_LINKS.map((link) => (
