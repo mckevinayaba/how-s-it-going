@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mascot } from '@/components/Mascot'
+import logo from '@/assets/happyme-logo.png'
 
 const SHOP_LINKS = [
   { to: '/shop', label: 'All products' },
@@ -24,12 +24,19 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-green-700 pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
       <div className="container-page grid grid-cols-2 gap-10 py-14 sm:grid-cols-4">
         <div className="col-span-2 sm:col-span-1">
-          <Link to="/" className="flex items-center gap-2.5">
-            <Mascot className="h-8 w-8" />
-            <span className="font-serif text-lg text-white">
-              HappyMe <span className="text-red-400">Health</span>
-            </span>
+          <Link
+            to="/"
+            aria-label="HappyMe Health — home"
+            className="inline-flex items-center justify-center rounded-xl2 bg-white px-5 py-4 shadow-soft"
+          >
+            <img
+              src={logo}
+              alt="HappyMe Health"
+              className="h-20 w-auto object-contain"
+              draggable={false}
+            />
           </Link>
+
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/75">
             Nourishing everyday products for families making more mindful
             kitchen choices — and outreach that supports health education and
