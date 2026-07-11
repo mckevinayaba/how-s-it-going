@@ -25,7 +25,7 @@ function Backdrop({ id }: { id: string }) {
   )
 }
 
-function Leaf({ x, y, rotate = 0, scale = 1 }: { x: number; y: number; rotate?: number; scale?: number }) {
+export function Leaf({ x, y, rotate = 0, scale = 1 }: { x: number; y: number; rotate?: number; scale?: number }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rotate}) scale(${scale})`}>
       <path

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '@/context/CartContext'
 import { ProductVisual } from '@/components/product/ProductVisual'
-import { BundleScene } from '@/components/illustrations/ProductScenes'
+import bundleImg from '@/assets/bundle-scene.jpg'
 import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
 import type { CartLineItem } from '@/types'
@@ -12,11 +12,9 @@ const SUPPORT_ADD_ON_CENTS = 500
 function CartItemVisual({ item }: { item: CartLineItem }) {
   if (item.kind === 'bundle') {
     return (
-      <BundleScene
-        accent={item.slug === 'buy-one-support-one'}
-        className="h-24 w-24 shrink-0"
-        rounded="rounded-card"
-      />
+      <div className="h-24 w-24 shrink-0 overflow-hidden rounded-card bg-oat">
+        <img src={bundleImg} alt={item.name} className="h-full w-full object-cover" />
+      </div>
     )
   }
   return (
