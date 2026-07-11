@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { KitchenHeroScene, FamilyKitchenScene } from '@/components/illustrations/ProductScenes'
+import heroImg from '@/assets/hero-scene.jpg'
+import founderImg from '@/assets/founder-kitchen.jpg'
+
 import { ProductCard } from '@/components/product/ProductCard'
 import { BundleCard } from '@/components/product/BundleCard'
 import { MetricCard } from '@/components/impact/MetricCard'
