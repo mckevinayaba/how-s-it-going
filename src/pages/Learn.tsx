@@ -4,6 +4,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { CheckBadgeIcon } from '@/components/icons'
 import { submitNewsletterSignup } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import featuredKitchen from '@/assets/learn-featured-kitchen.jpg'
 
 const TOPICS = [
   {
@@ -100,7 +101,17 @@ export function Learn() {
               </p>
               <Button to="#topics" size="lg" className="mt-6">Read article</Button>
             </div>
-            <div className="aspect-[5/4] w-full rounded-xl2 bg-gradient-to-br from-green-50 via-oat to-warm ring-1 ring-line" />
+            <div className="relative aspect-[5/4] w-full overflow-hidden rounded-xl2 ring-1 ring-line">
+              <img
+                src={featuredKitchen}
+                alt="Hands preparing fresh tomatoes, turmeric root, and dates on a wooden board in a warm home kitchen"
+                loading="lazy"
+                width={1200}
+                height={960}
+                className="h-full w-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-charcoal/10 via-transparent to-transparent" />
+            </div>
           </div>
         </div>
       </section>
