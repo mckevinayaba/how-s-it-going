@@ -91,7 +91,7 @@ export function Support() {
                   </label>
                   <label className="block">
                     <span className={labelClass}>Amount or type of support</span>
-                    <input placeholder="e.g. $50, transport for one day" className={inputClass} />
+                    <input placeholder="e.g. 30,000 FCFA, transport for one day" className={inputClass} />
                   </label>
                   <label className="block sm:col-span-2">
                     <span className={labelClass}>Preferred contact method</span>
