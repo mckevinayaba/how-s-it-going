@@ -14,7 +14,7 @@ export function Layout() {
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-0">
         <Outlet />
       </main>
       <Footer />
