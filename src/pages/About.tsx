@@ -3,10 +3,39 @@ import { Button } from '@/components/ui/Button'
 import { TeamMemberCard } from '@/components/team/TeamMemberCard'
 import { teamMembers } from '@/data/team'
 
+type Pillar = {
+  eyebrow: string
+  title: string
+  body: string
+}
+
+const pillars: Pillar[] = [
+  {
+    eyebrow: 'Our',
+    title: 'Philosophy',
+    body: 'At HappyMe Health, we believe good food can heal. Our philosophy is to use simple, sustainable nutrition as a transformative tool to control blood sugar, manage blood pressure, and help our community live healthier lives.',
+  },
+  {
+    eyebrow: 'Our',
+    title: 'Mission',
+    body: 'To empower communities to live healthier, longer lives by addressing chronic disease challenges through accessible health products, education, and compassionate outreach.',
+  },
+  {
+    eyebrow: 'Our',
+    title: 'Impact',
+    body: 'We close the gap in healthcare access with free awareness campaigns in underserved areas, early diagnosis for diabetes, hypertension and breast cancer, training for local medical staff, and first aid kits for communities with minimal infrastructure.',
+  },
+  {
+    eyebrow: 'Our',
+    title: 'Future Plans',
+    body: 'We are expanding screening programmes to more underserved and climate-vulnerable communities, partnering to scale training and kit distribution, and building a network of local volunteer health advocates for lasting impact.',
+  },
+]
+
 export function About() {
   return (
     <>
-      {/* Philosophy */}
+      {/* Philosophy hero */}
       <section className="bg-warm py-12 sm:py-20">
         <div className="container-page max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-700">
@@ -23,14 +52,40 @@ export function About() {
         </div>
       </section>
 
-      {/* Mission */}
+      {/* Four pillars — Philosophy · Mission · Impact · Future Plans */}
       <section className="bg-oat py-16 sm:py-24">
         <div className="container-page">
-          <SectionHeading
-            eyebrow="Our mission"
-            heading="Healthier, longer lives through everyday choices"
-            intro="To empower communities to live healthier, longer lives by addressing chronic disease challenges through accessible health products, education, and compassionate outreach."
-          />
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
+              What we stand for
+            </p>
+            <h2 className="mt-3 font-serif text-3xl text-charcoal sm:text-4xl">
+              A premium wellness brand rooted in family and community
+            </h2>
+          </div>
+
+          <div className="mt-14 grid grid-cols-1 gap-x-14 gap-y-14 sm:mt-16 md:grid-cols-2 lg:gap-x-20 lg:gap-y-20">
+            {pillars.map((pillar) => (
+              <article key={pillar.title} className="relative pt-6">
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-0 h-px w-16 bg-[#B98A4E]"
+                />
+                <p
+                  className="font-serif italic text-3xl leading-none text-[#B98A4E] sm:text-[2.25rem]"
+                  style={{ fontFamily: '"Fraunces", "Playfair Display", serif' }}
+                >
+                  {pillar.eyebrow}
+                </p>
+                <h3 className="mt-2 font-serif text-4xl uppercase tracking-tight text-charcoal sm:text-5xl">
+                  {pillar.title}
+                </h3>
+                <p className="mt-5 max-w-[46ch] text-[0.98rem] leading-relaxed text-muted">
+                  {pillar.body}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -65,16 +120,16 @@ export function About() {
         </div>
       </section>
 
-      {/* Future plans + CTA */}
+      {/* CTA */}
       <section className="bg-green-800 py-16 sm:py-24">
         <div className="container-page mx-auto max-w-2xl text-center">
           <h2 className="text-balance font-serif text-3xl text-white sm:text-4xl">
-            Building toward more homes and more communities
+            Build a healthier home with us
           </h2>
           <p className="mt-5 text-base leading-relaxed text-white/85">
-            As HappyMe Health grows, our plan stays the same: better everyday
-            products for the home, and practical, documented outreach for
-            communities with limited access to care.
+            Shop products crafted for everyday wellness, or support the
+            outreach that carries this mission into communities that need it
+            most.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Button to="/shop" variant="inverse" size="lg">
