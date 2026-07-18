@@ -1,19 +1,15 @@
 /**
- * Submission service placeholders.
+ * Submission service layer.
  *
- * These functions define the exact shape of the payloads that will be sent
- * to a backend (Supabase, Airtable, Google Sheets webhook, email service,
- * CRM, etc.) once the team wires one up.
+ * Each submit* function POSTs its payload as JSON to a webhook URL read from
+ * an environment variable (see .env.example). Point that variable at a
+ * Google Sheets webhook (Apps Script), Airtable REST endpoint, Supabase edge
+ * function, Zapier/Make webhook, or any CRM/email-notification service that
+ * accepts a JSON POST — no code changes needed here to switch providers.
  *
- * For now they simulate a successful submission on the client so the UX
- * flow works end-to-end. Swap the body of each function with a real
- * `fetch` call to the chosen endpoint when ready.
- *
- * Recommended integration options:
- *  - Lovable Cloud (Supabase) table + edge function
- *  - Google Apps Script webhook writing to a Sheet
- *  - Airtable REST API
- *  - Zapier / Make webhook
+ * Until an environment variable is set, each function simulates a
+ * successful submission on the client so the WhatsApp-handoff UX keeps
+ * working end-to-end during development and before credentials exist.
  */
 
 import type { CartLineItem } from '@/types'
@@ -119,18 +115,52 @@ export function buildCartLinePayload(items: CartLineItem[]) {
   })
 }
 
-async function fakePost<T>(_payload: T): Promise<{ ok: true }> {
-  // TODO: replace with real fetch, e.g.
-  // await fetch(import.meta.env.VITE_ORDERS_ENDPOINT, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(_payload),
-  // })
-  return new Promise((resolve) => setTimeout(() => resolve({ ok: true }), 200))
+// Each entry reads a webhook URL from an env var. Set the corresponding
+// VITE_*_WEBHOOK_URL in .env.local to activate real submission for that
+// form — see .env.example for the full list and setup notes.
+const ENDPOINTS = {
+  orderRequest: import.meta.env.VITE_ORDER_REQUEST_WEBHOOK_URL,
+  supportInquiry: import.meta.env.VITE_SUPPORT_INQUIRY_WEBHOOK_URL,
+  contact: import.meta.env.VITE_CONTACT_WEBHOOK_URL,
+  orderFollowUp: import.meta.env.VITE_ORDER_FOLLOW_UP_WEBHOOK_URL,
+  newsletter: import.meta.env.VITE_NEWSLETTER_WEBHOOK_URL,
+} as const
+
+type EndpointKey = keyof typeof ENDPOINTS
+
+export interface SubmissionResult {
+  ok: boolean
+  /** True when no webhook URL is configured yet and the submission was only simulated. */
+  simulated: boolean
 }
 
-export const submitOrderRequest = (p: OrderRequestPayload) => fakePost(p)
-export const submitSupportInquiry = (p: SupportInquiryPayload) => fakePost(p)
-export const submitContactInquiry = (p: ContactInquiryPayload) => fakePost(p)
-export const submitOrderFollowUp = (p: OrderFollowUpPayload) => fakePost(p)
-export const submitNewsletterSignup = (p: NewsletterSignupPayload) => fakePost(p)
+async function submitPayload<T>(endpointKey: EndpointKey, payload: T): Promise<SubmissionResult> {
+  const endpoint = ENDPOINTS[endpointKey]
+
+  if (!endpoint) {
+    // No backend configured yet for this form. Simulate a successful
+    // submission so the on-screen confirmation and WhatsApp handoff keep
+    // working while the real destination is being set up.
+    await new Promise((resolve) => setTimeout(resolve, 200))
+    return { ok: true, simulated: true }
+  }
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    return { ok: response.ok, simulated: false }
+  } catch {
+    // Network/backend failure. The caller still shows the WhatsApp handoff
+    // so the customer is never blocked by a backend outage.
+    return { ok: false, simulated: false }
+  }
+}
+
+export const submitOrderRequest = (p: OrderRequestPayload) => submitPayload('orderRequest', p)
+export const submitSupportInquiry = (p: SupportInquiryPayload) => submitPayload('supportInquiry', p)
+export const submitContactInquiry = (p: ContactInquiryPayload) => submitPayload('contact', p)
+export const submitOrderFollowUp = (p: OrderFollowUpPayload) => submitPayload('orderFollowUp', p)
+export const submitNewsletterSignup = (p: NewsletterSignupPayload) => submitPayload('newsletter', p)

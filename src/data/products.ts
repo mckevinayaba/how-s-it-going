@@ -1,10 +1,5 @@
 import type { Product } from '@/types'
 
-// TODO: Confirm whether the public product name should remain "Date Sugar"
-// or change to "Dates" once the client confirms whether the product is
-// whole dates or ground date sugar. Do not change the public name until
-// that is confirmed — see slug: 'date-sugar' below.
-
 export const products: Product[] = [
   {
     slug: 'date-sugar',
