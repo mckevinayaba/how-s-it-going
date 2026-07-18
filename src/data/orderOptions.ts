@@ -1,5 +1,7 @@
 export const CONTACT_METHODS = ['WhatsApp', 'Phone call', 'SMS', 'Email'] as const
 
+export const DELIVERY_PREFERENCES = ['Home delivery', 'Pickup', 'Discuss with team'] as const
+
 export const PAYMENT_METHODS = [
   'MTN Mobile Money',
   'Orange Money',

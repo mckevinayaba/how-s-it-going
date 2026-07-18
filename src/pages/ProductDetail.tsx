@@ -12,6 +12,7 @@ import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { buildProductUrl } from '@/lib/share'
 import { ChatIcon, ShopIcon } from '@/components/icons'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { DELIVERY_CITIES_NOTE } from '@/lib/delivery'
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -54,8 +55,11 @@ export function ProductDetail() {
   )
 
   const productUrl = buildProductUrl(product.slug)
+  const packagingComingSoonNote = product.plannedPackage
+    ? ` ${product.plannedPackage.label} packaging is coming soon.`
+    : ''
   const whatsappShareLink = buildWhatsAppLink(
-    `${product.name}\n\n${product.shortDescription}\n\n${productUrl}\n\nI found this on HappyMe Health and thought you might like it.`,
+    `I found ${product.name} on HappyMe Health. It is currently available in a ${product.currentPackage.label} for ${formatPrice(product.currentPackage.priceFcfa)}.${packagingComingSoonNote} Orders are confirmed by WhatsApp or phone.\n\n${productUrl}`,
   )
 
   const whatsappPlannedPackageLink = product.plannedPackage
@@ -160,6 +164,8 @@ export function ProductDetail() {
               </a>
             </div>
           )}
+
+          <p className="mt-4 text-xs leading-relaxed text-muted">{DELIVERY_CITIES_NOTE}</p>
 
           <label className="mt-5 flex items-center gap-2 text-sm text-charcoal">
             <input

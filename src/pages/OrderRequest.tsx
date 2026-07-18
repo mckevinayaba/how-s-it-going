@@ -7,14 +7,17 @@ import { OrderSummary } from '@/components/order/OrderSummary'
 import { HowOrderingWorks } from '@/components/order/HowOrderingWorks'
 import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
-import { CONTACT_METHODS, PAYMENT_METHODS } from '@/data/orderOptions'
+import { CONTACT_METHODS, PAYMENT_METHODS, DELIVERY_PREFERENCES } from '@/data/orderOptions'
 import { submitOrderRequest, buildCartLinePayload, type OrderRequestPayload } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { DeliveryTrustStrip } from '@/components/ui/DeliveryTrustStrip'
+import { CITY_HELPER_TEXT } from '@/lib/delivery'
 import type { CartLineItem } from '@/types'
 
 interface OrderConfirmation {
   items: CartLineItem[]
   totalFcfa: number
+  hasUnconfirmedItems: boolean
   name: string
   city: string
   contactMethod: string
@@ -26,7 +29,8 @@ const labelClass = 'text-sm font-medium text-charcoal'
 
 export function OrderRequest() {
   usePageMeta('Request Order | HappyMe Health')
-  const { items, subtotalFcfa, totalFcfa, supportAddOn, supportAddOnFcfa, clearCart } = useCart()
+  const { items, subtotalFcfa, totalFcfa, hasUnconfirmedItems, supportAddOn, supportAddOnFcfa, clearCart } =
+    useCart()
   const [confirmation, setConfirmation] = useState<OrderConfirmation | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -36,7 +40,8 @@ export function OrderRequest() {
   const [email, setEmail] = useState('')
   const [city, setCity] = useState('')
   const [quarter, setQuarter] = useState('')
-  const [address, setAddress] = useState('')
+  const [deliveryPreference, setDeliveryPreference] = useState<string>(DELIVERY_PREFERENCES[0])
+  const [addressDetails, setAddressDetails] = useState('')
   const [contactMethod, setContactMethod] = useState<string>(CONTACT_METHODS[0])
   const [paymentMethod, setPaymentMethod] = useState<string>(PAYMENT_METHODS[0])
   const [notes, setNotes] = useState('')
@@ -53,12 +58,14 @@ export function OrderRequest() {
       email,
       city,
       quarter,
-      addressOrPickup: address,
+      deliveryPreference,
+      addressDetails,
       items: buildCartLinePayload(items),
       subtotalFcfa,
       supportAddOn,
       supportAddOnFcfa,
       totalFcfa,
+      hasUnconfirmedItems,
       contactMethod,
       paymentMethod,
       notes,
@@ -73,6 +80,7 @@ export function OrderRequest() {
     setConfirmation({
       items,
       totalFcfa,
+      hasUnconfirmedItems,
       name: fullName,
       city,
       contactMethod,
@@ -85,11 +93,15 @@ export function OrderRequest() {
       `New order request from ${confirmation.name || 'a customer'}`,
       '',
       'Products:',
-      ...confirmation.items.map(
-        (item) => `- ${item.name} x${item.quantity} (${formatPrice(item.priceFcfa * item.quantity)})`,
+      ...confirmation.items.map((item) =>
+        item.priceConfirmed === false
+          ? `- ${item.name} x${item.quantity} (price to be confirmed)`
+          : `- ${item.name} x${item.quantity} (${formatPrice(item.priceFcfa * item.quantity)})`,
       ),
       '',
-      `Total: ${formatPrice(confirmation.totalFcfa)}`,
+      confirmation.hasUnconfirmedItems
+        ? `Total for priced items: ${formatPrice(confirmation.totalFcfa)} (some items require price confirmation)`
+        : `Total: ${formatPrice(confirmation.totalFcfa)}`,
       `City/town: ${confirmation.city || 'not provided'}`,
       `Preferred contact: ${confirmation.contactMethod}`,
     ].join('\n')
@@ -105,8 +117,8 @@ export function OrderRequest() {
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted">
             Thank you for choosing HappyMe Health. Our team will contact you
-            shortly to confirm product availability, delivery details, and
-            payment options.
+            shortly by WhatsApp or phone to confirm product availability,
+            delivery details, and payment options.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
@@ -142,6 +154,8 @@ export function OrderRequest() {
   }
 
   return (
+    <>
+    <DeliveryTrustStrip />
     <div className="container-page py-12 sm:py-16">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-700">
         Request order
@@ -206,7 +220,7 @@ export function OrderRequest() {
           <fieldset className="rounded-xl2 bg-white p-6 shadow-card ring-1 ring-line sm:p-7">
             <legend className="px-1 font-serif text-lg text-charcoal">Delivery</legend>
             <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <label className="block">
+              <label className="block sm:col-span-2">
                 <span className={labelClass}>City or town</span>
                 <input
                   required
@@ -215,6 +229,7 @@ export function OrderRequest() {
                   placeholder="Buea, Douala, Yaoundé..."
                   className={inputClass}
                 />
+                <p className="mt-1.5 text-xs text-muted">{CITY_HELPER_TEXT}</p>
               </label>
               <label className="block">
                 <span className={labelClass}>Quarter or neighbourhood</span>
@@ -225,11 +240,25 @@ export function OrderRequest() {
                   className={inputClass}
                 />
               </label>
-              <label className="block sm:col-span-2">
+              <label className="block">
                 <span className={labelClass}>Delivery address or pickup preference</span>
+                <select
+                  value={deliveryPreference}
+                  onChange={(e) => setDeliveryPreference(e.target.value)}
+                  className={inputClass}
+                >
+                  {DELIVERY_PREFERENCES.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block sm:col-span-2">
+                <span className={labelClass}>Address details (optional)</span>
                 <textarea
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={addressDetails}
+                  onChange={(e) => setAddressDetails(e.target.value)}
                   rows={3}
                   placeholder="Landmark, house description, or where you'd like to pick up"
                   className={inputClass}
@@ -315,6 +344,7 @@ export function OrderRequest() {
             subtotalFcfa={subtotalFcfa}
             supportAddOnFcfa={supportAddOnFcfa}
             totalFcfa={totalFcfa}
+            hasUnconfirmedItems={hasUnconfirmedItems}
           />
           <HowOrderingWorks />
           <Link
@@ -326,5 +356,6 @@ export function OrderRequest() {
         </aside>
       </div>
     </div>
+    </>
   )
 }

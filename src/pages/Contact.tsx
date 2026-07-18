@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { buildWhatsAppLink, WHATSAPP_DISPLAY } from '@/lib/whatsapp'
+import { SUPPORT_EMAIL_PLACEHOLDER } from '@/lib/contact'
 import { CONTACT_METHODS } from '@/data/orderOptions'
 import { submitContactInquiry, type ContactInquiryPayload } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
@@ -226,8 +227,13 @@ export function Contact() {
                 <dd className="text-muted">Closed</dd>
               </div>
             </dl>
+            <div className="mt-6 border-t border-line pt-6">
+              <p className="text-sm font-medium text-charcoal">Email support coming with official domain setup.</p>
+              <p className="mt-1.5 text-sm text-muted">{SUPPORT_EMAIL_PLACEHOLDER}</p>
+              <p className="mt-1 text-xs text-muted">Official support email to be confirmed.</p>
+            </div>
             <p className="mt-6 rounded-card bg-oat p-4 text-xs leading-relaxed text-muted">
-              Order online. Confirm by WhatsApp. Pay after confirmation.
+              Order online. Confirm by WhatsApp. Delivery can be arranged.
             </p>
           </div>
         </div>

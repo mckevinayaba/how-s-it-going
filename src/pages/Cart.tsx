@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/format'
 import { SUPPORT_ADD_ON_CHOICES } from '@/data/orderOptions'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { DeliveryTrustStrip } from '@/components/ui/DeliveryTrustStrip'
 import type { CartLineItem } from '@/types'
 
 function CartItemVisual({ item }: { item: CartLineItem }) {
@@ -27,8 +28,16 @@ function CartItemVisual({ item }: { item: CartLineItem }) {
 
 export function Cart() {
   usePageMeta('Your Basket | HappyMe Health')
-  const { items, subtotalFcfa, totalFcfa, setQuantity, removeItem, supportAddOn, setSupportAddOn } =
-    useCart()
+  const {
+    items,
+    subtotalFcfa,
+    totalFcfa,
+    hasUnconfirmedItems,
+    setQuantity,
+    removeItem,
+    supportAddOn,
+    setSupportAddOn,
+  } = useCart()
 
   if (items.length === 0) {
     return (
@@ -45,10 +54,12 @@ export function Cart() {
   }
 
   return (
-    <div className="container-page py-12 sm:py-16">
-      <h1 className="font-serif text-3xl text-charcoal sm:text-4xl">Your basket</h1>
+    <>
+      <DeliveryTrustStrip />
+      <div className="container-page py-12 sm:py-16">
+        <h1 className="font-serif text-3xl text-charcoal sm:text-4xl">Your basket</h1>
 
-      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
         <ul className="space-y-5">
           {items.map((item) => (
             <li
@@ -90,9 +101,15 @@ export function Cart() {
                       Remove
                     </button>
                   </div>
-                  <span className="font-serif text-base text-green-700">
-                    {formatPrice(item.priceFcfa * item.quantity)}
-                  </span>
+                  {item.priceConfirmed === false ? (
+                    <span className="text-xs font-medium text-green-700">
+                      Price confirmed after order request
+                    </span>
+                  ) : (
+                    <span className="font-serif text-base text-green-700">
+                      {formatPrice(item.priceFcfa * item.quantity)}
+                    </span>
+                  )}
                 </div>
               </div>
             </li>
@@ -103,7 +120,7 @@ export function Cart() {
           <h2 className="font-serif text-lg text-charcoal">Order summary</h2>
 
           <div className="mt-4 flex justify-between text-sm text-charcoal">
-            <span>Subtotal</span>
+            <span>{hasUnconfirmedItems ? 'Subtotal for priced items' : 'Subtotal'}</span>
             <span>{formatPrice(subtotalFcfa)}</span>
           </div>
 
@@ -136,9 +153,15 @@ export function Cart() {
           </fieldset>
 
           <div className="mt-4 flex justify-between border-t border-line pt-4 font-serif text-lg text-charcoal">
-            <span>Total</span>
+            <span>{hasUnconfirmedItems ? 'Total for priced items' : 'Total'}</span>
             <span>{formatPrice(totalFcfa)}</span>
           </div>
+          {hasUnconfirmedItems && (
+            <p className="mt-2 text-xs text-muted">
+              Some items require price confirmation. Our team will confirm
+              the final price after your order request.
+            </p>
+          )}
 
           <Button to="/request-order" size="lg" className="mt-6 w-full">
             Request order
@@ -155,7 +178,8 @@ export function Cart() {
             Continue shopping
           </Link>
         </aside>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

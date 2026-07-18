@@ -27,21 +27,27 @@ export interface OrderRequestPayload {
   // Delivery
   city: string
   quarter: string
-  addressOrPickup: string
+  deliveryPreference: string
+  addressDetails: string
   // Basket
   items: Array<{
     slug: string
     name: string
     variantLabel?: string
     quantity: number
-    unitPriceFcfa: number
-    lineTotalFcfa: number
+    priceConfirmed: boolean
+    /** Null when priceConfirmed is false — no final price to send yet. */
+    unitPriceFcfa: number | null
+    lineTotalFcfa: number | null
     kind: 'product' | 'bundle'
   }>
+  /** Sum of priced items only. */
   subtotalFcfa: number
   supportAddOn: 'contribute' | 'ask-me' | 'not-today'
   supportAddOnFcfa: number
+  /** Total for priced items only — see hasUnconfirmedItems for the rest. */
   totalFcfa: number
+  hasUnconfirmedItems: boolean
   // Preferences
   contactMethod: string
   paymentMethod: string
@@ -98,15 +104,19 @@ export interface NewsletterSignupPayload {
 }
 
 export function buildCartLinePayload(items: CartLineItem[]) {
-  return items.map((item) => ({
-    slug: item.slug,
-    name: item.name,
-    variantLabel: item.variantLabel,
-    quantity: item.quantity,
-    unitPriceFcfa: item.priceFcfa,
-    lineTotalFcfa: item.priceFcfa * item.quantity,
-    kind: item.kind,
-  }))
+  return items.map((item) => {
+    const priceConfirmed = item.priceConfirmed !== false
+    return {
+      slug: item.slug,
+      name: item.name,
+      variantLabel: item.variantLabel,
+      quantity: item.quantity,
+      priceConfirmed,
+      unitPriceFcfa: priceConfirmed ? item.priceFcfa : null,
+      lineTotalFcfa: priceConfirmed ? item.priceFcfa * item.quantity : null,
+      kind: item.kind,
+    }
+  })
 }
 
 async function fakePost<T>(_payload: T): Promise<{ ok: true }> {

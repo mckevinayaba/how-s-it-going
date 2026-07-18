@@ -17,14 +17,14 @@ import { supportOptions } from '@/data/support'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { DeliveryTrustStrip } from '@/components/ui/DeliveryTrustStrip'
+import { DELIVERY_CITIES_NOTE } from '@/lib/delivery'
 
 const PROOF_STRIPS = [
   { label: 'Natural everyday products', Icon: LeafIcon },
   { label: 'Rooted in lived family experience', Icon: ImpactIcon },
   { label: 'Backed by documented community outreach', Icon: ShieldIcon },
 ]
-
-const ORDER_FLOW_STEPS = ['Order online', 'Confirm by WhatsApp', 'Pay after confirmation']
 
 export function Home() {
   usePageMeta(
@@ -33,7 +33,7 @@ export function Home() {
   )
   const { addItem } = useCart()
   const navigate = useNavigate()
-  const starterPack = getBundleBySlug('family-health-starter-pack')
+  const starterPack = getBundleBySlug('starter-wellness-pack')
 
   const handleRequestStarterPack = () => {
     if (!starterPack) return
@@ -42,7 +42,9 @@ export function Home() {
       slug: starterPack.slug,
       name: starterPack.name,
       priceFcfa: starterPack.priceFcfa,
+      priceConfirmed: starterPack.priceConfirmed,
       image: starterPack.image,
+      variantLabel: starterPack.basketLabel,
     })
     navigate('/request-order')
   }
@@ -115,16 +117,7 @@ export function Home() {
       </section>
 
       {/* Order flow trust strip */}
-      <section className="border-y border-line bg-oat py-4">
-        <div className="container-page flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-sm font-medium text-charcoal">
-          {ORDER_FLOW_STEPS.map((step, index) => (
-            <span key={step} className="flex items-center gap-3">
-              {index > 0 && <span className="text-green-600">&rarr;</span>}
-              {step}
-            </span>
-          ))}
-        </div>
-      </section>
+      <DeliveryTrustStrip />
 
       {/* Starter pack highlight */}
       {starterPack && (
@@ -155,15 +148,11 @@ export function Home() {
                     {formatPrice(starterPack.priceFcfa)}
                   </span>
                 ) : (
-                  <div className="mt-4">
-                    <span className="block font-serif text-xl text-green-700">
-                      Price confirmed after order request
-                    </span>
-                    <span className="block text-sm text-muted">
-                      Estimated value: {formatPrice(starterPack.priceFcfa)}
-                    </span>
-                  </div>
+                  <span className="mt-4 block font-serif text-xl text-green-700">
+                    Price confirmed after order request
+                  </span>
                 )}
+                <p className="mt-3 max-w-md text-xs leading-relaxed text-muted">{DELIVERY_CITIES_NOTE}</p>
                 <button
                   type="button"
                   onClick={handleRequestStarterPack}

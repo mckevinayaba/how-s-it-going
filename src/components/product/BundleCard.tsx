@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import type { Bundle } from '@/types'
 import bundleImg from '@/assets/bundle-scene.jpg'
-import { ImpactIcon } from '@/components/icons'
+import { ChatIcon, ImpactIcon } from '@/components/icons'
 import { ShareButton } from '@/components/product/ShareButton'
 import { formatPrice } from '@/lib/format'
 import { useCart } from '@/context/CartContext'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { DELIVERY_CITIES_NOTE } from '@/lib/delivery'
 
 export function BundleCard({ bundle }: { bundle: Bundle }) {
   const { addItem } = useCart()
@@ -16,8 +18,10 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
       kind: 'bundle',
       slug: bundle.slug,
       name: bundle.name,
-      priceFcfa: bundle.priceFcfa,
+      priceFcfa: bundle.priceConfirmed ? bundle.priceFcfa : 0,
+      priceConfirmed: bundle.priceConfirmed,
       image: bundle.image,
+      variantLabel: bundle.basketLabel,
     })
 
   const handleRequestBundle = () => {
@@ -26,6 +30,10 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
   }
 
   const shopUrl = typeof window !== 'undefined' ? `${window.location.origin}/shop` : '/shop'
+
+  const whatsappShareMessage = bundle.priceConfirmed
+    ? `I found the ${bundle.name} on HappyMe Health for ${formatPrice(bundle.priceFcfa)}. ${bundle.description} Orders are confirmed by WhatsApp or phone.\n\n${shopUrl}`
+    : `I found the ${bundle.name} on HappyMe Health. ${bundle.description} Price is confirmed after an order request. Orders are confirmed by WhatsApp or phone.\n\n${shopUrl}`
 
   return (
     <article
@@ -43,13 +51,22 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
         {isImpact && (
           <div className="absolute inset-0 bg-gradient-to-t from-red-500/25 via-transparent to-transparent" />
         )}
-        <div className="absolute right-3 top-3">
+        <div className="absolute right-3 top-3 flex gap-2">
           <ShareButton
             name={bundle.name}
             title={bundle.name}
             text={bundle.description}
             url={shopUrl}
           />
+          <a
+            href={buildWhatsAppLink(whatsappShareMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Share ${bundle.name} on WhatsApp`}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-soft backdrop-blur transition-transform duration-200 ease-premium hover:scale-110 active:scale-95"
+          >
+            <ChatIcon className="h-[18px] w-[18px] text-charcoal/70" strokeWidth={1.8} />
+          </a>
         </div>
       </div>
 
@@ -86,16 +103,13 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
               {formatPrice(bundle.priceFcfa)}
             </span>
           ) : (
-            <div>
-              <span className="block text-sm font-semibold text-green-700">
-                Price confirmed after order request
-              </span>
-              <span className="block text-xs text-muted">
-                Estimated value: {formatPrice(bundle.priceFcfa)}
-              </span>
-            </div>
+            <span className="block text-sm font-semibold text-green-700">
+              Price confirmed after order request
+            </span>
           )}
         </div>
+
+        <p className="text-xs leading-relaxed text-muted">{DELIVERY_CITIES_NOTE}</p>
 
         <div className="grid grid-cols-2 gap-2">
           <button
@@ -103,7 +117,7 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
             onClick={handleRequestBundle}
             className="rounded-pill border border-green-700/30 px-4 py-2.5 text-sm font-semibold text-green-700 transition-colors duration-300 ease-premium hover:bg-green-700/5"
           >
-            Request bundle
+            {bundle.requestLabel ?? 'Request bundle'}
           </button>
           <button
             type="button"

@@ -7,6 +7,7 @@ import { products } from '@/data/products'
 import { bundles } from '@/data/bundles'
 import type { ProductCategory } from '@/types'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { DeliveryTrustStrip } from '@/components/ui/DeliveryTrustStrip'
 
 type Filter = 'all' | ProductCategory | 'bundles'
 
@@ -41,6 +42,7 @@ export function Shop() {
 
   return (
     <div className="py-12 sm:py-16">
+      <DeliveryTrustStrip className="mb-12 sm:mb-16" />
       <div className="container-page">
         <SectionHeading
           eyebrow="Shop"

@@ -19,6 +19,8 @@ interface CartContextValue {
   items: CartLineItem[]
   itemCount: number
   subtotalFcfa: number
+  /** True when the basket contains at least one line whose price is not yet confirmed. */
+  hasUnconfirmedItems: boolean
   supportAddOn: SupportAddOnChoice
   setSupportAddOn: (choice: SupportAddOnChoice) => void
   supportAddOnFcfa: number
@@ -114,7 +116,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   )
 
   const subtotalFcfa = useMemo(
-    () => items.reduce((sum, line) => sum + line.priceFcfa * line.quantity, 0),
+    () =>
+      items.reduce(
+        (sum, line) => (line.priceConfirmed === false ? sum : sum + line.priceFcfa * line.quantity),
+        0,
+      ),
+    [items],
+  )
+
+  const hasUnconfirmedItems = useMemo(
+    () => items.some((line) => line.priceConfirmed === false),
     [items],
   )
 
@@ -126,6 +137,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       itemCount,
       subtotalFcfa,
+      hasUnconfirmedItems,
       supportAddOn,
       setSupportAddOn,
       supportAddOnFcfa,
@@ -135,7 +147,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQuantity,
       clearCart,
     }),
-    [items, itemCount, subtotalFcfa, supportAddOn, supportAddOnFcfa, totalFcfa, addItem, removeItem, setQuantity, clearCart],
+    [
+      items,
+      itemCount,
+      subtotalFcfa,
+      hasUnconfirmedItems,
+      supportAddOn,
+      supportAddOnFcfa,
+      totalFcfa,
+      addItem,
+      removeItem,
+      setQuantity,
+      clearCart,
+    ],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

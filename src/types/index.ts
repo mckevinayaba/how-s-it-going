@@ -31,11 +31,20 @@ export interface Bundle {
   slug: string
   name: string
   description: string
-  /** Estimated value in FCFA (sum of current component prices). */
+  /**
+   * Price in FCFA. When priceConfirmed is false this is an internal
+   * reference value only (e.g. a sum of component prices) and must not be
+   * shown to customers as a real price — the UI shows "Price confirmed
+   * after order request" instead.
+   */
   priceFcfa: number
   /** False until the owner approves a final bundle price/discount. */
   priceConfirmed: boolean
   includes: string[]
+  /** Short descriptor shown on the basket line item, e.g. "2 bottles each". */
+  basketLabel: string
+  /** Label for the primary request button. Defaults to "Request bundle". */
+  requestLabel?: string
   image: PlaceholderSpec
   isImpactBundle?: boolean
 }
@@ -78,6 +87,12 @@ export interface CartLineItem {
   name: string
   /** Price in FCFA (not cents — FCFA has no subdivision). */
   priceFcfa: number
+  /**
+   * False when this line's final price is not yet confirmed (e.g. the
+   * Family Size Pack). Undefined/true means the price is confirmed.
+   * Unconfirmed lines are excluded from subtotal/total calculations.
+   */
+  priceConfirmed?: boolean
   quantity: number
   image: PlaceholderSpec
   variantLabel?: string

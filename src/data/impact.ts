@@ -209,6 +209,12 @@ export interface ImpactReport {
   downloadUrl?: string
 }
 
+// Add PDF files to public/reports and update these downloadUrl values when
+// final downloadable reports are provided. Until then, downloadUrl stays
+// unset and the UI shows "Download coming soon" instead of a dead link.
+// Suggested paths once PDFs are available:
+//   /reports/buea-bomaka-project-report.pdf
+//   /reports/pendamboko-project-report.pdf
 export const impactReports: ImpactReport[] = [
   {
     slug: 'buea-bomaka',
