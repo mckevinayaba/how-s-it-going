@@ -42,9 +42,12 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         <div className="mt-auto flex items-center justify-between pt-2">
-          <span className="font-serif text-xl text-green-700">
-            {formatPrice(product.priceCents)}
-          </span>
+          <div>
+            <span className="font-serif text-xl text-green-700">
+              {formatPrice(product.currentPackage.priceFcfa)}
+            </span>
+            <span className="ml-1.5 text-xs text-muted">{product.currentPackage.label}</span>
+          </div>
           <Link
             to={`/product/${product.slug}`}
             className="text-xs font-medium uppercase tracking-wide text-green-700 hover:text-green-800 hover:underline"
@@ -53,6 +56,13 @@ export function ProductCard({ product }: { product: Product }) {
           </Link>
         </div>
 
+        {product.plannedPackage && (
+          <p className="text-xs text-muted">
+            <span className="font-medium text-charcoal">{product.plannedPackage.label} coming soon</span>
+            {' — '}planned {formatPrice(product.plannedPackage.priceFcfa)}
+          </p>
+        )}
+
         <button
           type="button"
           onClick={() =>
@@ -60,9 +70,9 @@ export function ProductCard({ product }: { product: Product }) {
               kind: 'product',
               slug: product.slug,
               name: product.name,
-              priceCents: product.priceCents,
+              priceFcfa: product.currentPackage.priceFcfa,
               image: product.image,
-              variantLabel: product.packSize,
+              variantLabel: product.currentPackage.label,
             })
           }
           className="w-full rounded-pill bg-green-500 px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 ease-premium hover:bg-green-700 hover:shadow-lift active:scale-[0.98]"

@@ -1,13 +1,19 @@
 import type { Bundle } from '@/types'
 
+// Bundle prices are the sum of current 500g bottle prices for their
+// component products. priceConfirmed is false until the owner approves a
+// final bundle price (e.g. a discount) — until then, the UI shows "Price
+// confirmed after order request" instead of a specific discounted number.
+
 export const bundles: Bundle[] = [
   {
     slug: 'family-health-starter-pack',
     name: 'The Family Health Starter Pack',
     description:
-      'Date Sugar, Turmeric, and Tigernuts together for families starting to make more mindful everyday food choices.',
-    priceCents: 2699,
-    includes: ['Date Sugar (350g)', 'Turmeric (200g)', 'Tigernuts (250g)'],
+      'Date Sugar, Turmeric, and Tigernuts together for individuals and families starting to make more mindful everyday food choices.',
+    priceFcfa: 9000,
+    priceConfirmed: false,
+    includes: ['Date Sugar (500g bottle)', 'Turmeric (500g bottle)', 'Tigernuts (500g bottle)'],
     image: { tone: 'kitchen', label: 'Family Health Starter Pack' },
   },
   {
@@ -15,16 +21,18 @@ export const bundles: Bundle[] = [
     name: 'The Parent Care Pack',
     description:
       'A thoughtful selection for people supporting a parent who is trying to eat more intentionally.',
-    priceCents: 2299,
-    includes: ['Date Sugar (350g)', 'Turmeric (200g)'],
+    priceFcfa: 7000,
+    priceConfirmed: false,
+    includes: ['Date Sugar (500g bottle)', 'Turmeric (500g bottle)'],
     image: { tone: 'kitchen', label: 'Parent Care Pack' },
   },
   {
     slug: 'everyday-wellness-trio',
     name: 'The Everyday Wellness Trio',
     description: 'A simple daily use bundle for the household kitchen.',
-    priceCents: 2699,
-    includes: ['Date Sugar (350g)', 'Turmeric (200g)', 'Tigernuts (250g)'],
+    priceFcfa: 9000,
+    priceConfirmed: false,
+    includes: ['Date Sugar (500g bottle)', 'Turmeric (500g bottle)', 'Tigernuts (500g bottle)'],
     image: { tone: 'kitchen', label: 'Everyday Wellness Trio' },
   },
   {
@@ -32,7 +40,8 @@ export const bundles: Bundle[] = [
     name: 'Buy One, Support One',
     description:
       'A customer buys a product bundle and helps contribute a wellness pack toward a community outreach activity.',
-    priceCents: 2999,
+    priceFcfa: 9000,
+    priceConfirmed: false,
     includes: [
       'Family Health Starter Pack',
       '1 wellness pack contributed to community outreach',

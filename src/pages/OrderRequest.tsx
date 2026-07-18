@@ -14,7 +14,7 @@ import type { CartLineItem } from '@/types'
 
 interface OrderConfirmation {
   items: CartLineItem[]
-  totalCents: number
+  totalFcfa: number
   name: string
   city: string
   contactMethod: string
@@ -26,7 +26,7 @@ const labelClass = 'text-sm font-medium text-charcoal'
 
 export function OrderRequest() {
   usePageMeta('Request Order | HappyMe Health')
-  const { items, subtotalCents, totalCents, supportAddOn, supportAddOnCents, clearCart } = useCart()
+  const { items, subtotalFcfa, totalFcfa, supportAddOn, supportAddOnFcfa, clearCart } = useCart()
   const [confirmation, setConfirmation] = useState<OrderConfirmation | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -55,10 +55,10 @@ export function OrderRequest() {
       quarter,
       addressOrPickup: address,
       items: buildCartLinePayload(items),
-      subtotalCents,
+      subtotalFcfa,
       supportAddOn,
-      supportAddOnCents,
-      totalCents,
+      supportAddOnFcfa,
+      totalFcfa,
       contactMethod,
       paymentMethod,
       notes,
@@ -72,7 +72,7 @@ export function OrderRequest() {
 
     setConfirmation({
       items,
-      totalCents,
+      totalFcfa,
       name: fullName,
       city,
       contactMethod,
@@ -86,10 +86,10 @@ export function OrderRequest() {
       '',
       'Products:',
       ...confirmation.items.map(
-        (item) => `- ${item.name} x${item.quantity} (${formatPrice(item.priceCents * item.quantity)})`,
+        (item) => `- ${item.name} x${item.quantity} (${formatPrice(item.priceFcfa * item.quantity)})`,
       ),
       '',
-      `Total: ${formatPrice(confirmation.totalCents)}`,
+      `Total: ${formatPrice(confirmation.totalFcfa)}`,
       `City/town: ${confirmation.city || 'not provided'}`,
       `Preferred contact: ${confirmation.contactMethod}`,
     ].join('\n')
@@ -312,9 +312,9 @@ export function OrderRequest() {
         <aside className="space-y-6">
           <OrderSummary
             items={items}
-            subtotalCents={subtotalCents}
-            supportAddOnCents={supportAddOnCents}
-            totalCents={totalCents}
+            subtotalFcfa={subtotalFcfa}
+            supportAddOnFcfa={supportAddOnFcfa}
+            totalFcfa={totalFcfa}
           />
           <HowOrderingWorks />
           <Link

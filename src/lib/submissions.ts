@@ -34,14 +34,14 @@ export interface OrderRequestPayload {
     name: string
     variantLabel?: string
     quantity: number
-    unitPriceCents: number
-    lineTotalCents: number
+    unitPriceFcfa: number
+    lineTotalFcfa: number
     kind: 'product' | 'bundle'
   }>
-  subtotalCents: number
+  subtotalFcfa: number
   supportAddOn: 'contribute' | 'ask-me' | 'not-today'
-  supportAddOnCents: number
-  totalCents: number
+  supportAddOnFcfa: number
+  totalFcfa: number
   // Preferences
   contactMethod: string
   paymentMethod: string
@@ -103,8 +103,8 @@ export function buildCartLinePayload(items: CartLineItem[]) {
     name: item.name,
     variantLabel: item.variantLabel,
     quantity: item.quantity,
-    unitPriceCents: item.priceCents,
-    lineTotalCents: item.priceCents * item.quantity,
+    unitPriceFcfa: item.priceFcfa,
+    lineTotalFcfa: item.priceFcfa * item.quantity,
     kind: item.kind,
   }))
 }

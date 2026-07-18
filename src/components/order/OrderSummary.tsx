@@ -3,12 +3,12 @@ import { formatPrice } from '@/lib/format'
 
 interface OrderSummaryProps {
   items: CartLineItem[]
-  subtotalCents: number
-  supportAddOnCents?: number
-  totalCents: number
+  subtotalFcfa: number
+  supportAddOnFcfa?: number
+  totalFcfa: number
 }
 
-export function OrderSummary({ items, subtotalCents, supportAddOnCents = 0, totalCents }: OrderSummaryProps) {
+export function OrderSummary({ items, subtotalFcfa, supportAddOnFcfa = 0, totalFcfa }: OrderSummaryProps) {
   return (
     <div className="rounded-xl2 bg-oat p-6">
       <h2 className="font-serif text-lg text-charcoal">Your order</h2>
@@ -24,10 +24,10 @@ export function OrderSummary({ items, subtotalCents, supportAddOnCents = 0, tota
                 <span className="text-muted"> &times; {item.quantity}</span>
               </p>
               {item.variantLabel && <p className="text-xs text-muted">{item.variantLabel}</p>}
-              <p className="text-xs text-muted">Unit price: {formatPrice(item.priceCents)}</p>
+              <p className="text-xs text-muted">Unit price: {formatPrice(item.priceFcfa)}</p>
             </div>
             <span className="shrink-0 font-serif text-green-700">
-              {formatPrice(item.priceCents * item.quantity)}
+              {formatPrice(item.priceFcfa * item.quantity)}
             </span>
           </li>
         ))}
@@ -36,19 +36,19 @@ export function OrderSummary({ items, subtotalCents, supportAddOnCents = 0, tota
       <div className="mt-4 space-y-1.5 border-t border-line pt-4 text-sm text-charcoal">
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span>{formatPrice(subtotalCents)}</span>
+          <span>{formatPrice(subtotalFcfa)}</span>
         </div>
-        {supportAddOnCents > 0 && (
+        {supportAddOnFcfa > 0 && (
           <div className="flex justify-between text-green-700">
             <span>Outreach contribution</span>
-            <span>{formatPrice(supportAddOnCents)}</span>
+            <span>{formatPrice(supportAddOnFcfa)}</span>
           </div>
         )}
       </div>
 
       <div className="mt-3 flex justify-between border-t border-line pt-4 font-serif text-lg text-charcoal">
         <span>Order total</span>
-        <span>{formatPrice(totalCents)}</span>
+        <span>{formatPrice(totalFcfa)}</span>
       </div>
     </div>
   )

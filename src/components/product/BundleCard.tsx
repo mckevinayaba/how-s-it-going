@@ -16,7 +16,7 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
       kind: 'bundle',
       slug: bundle.slug,
       name: bundle.name,
-      priceCents: bundle.priceCents,
+      priceFcfa: bundle.priceFcfa,
       image: bundle.image,
     })
 
@@ -80,9 +80,22 @@ export function BundleCard({ bundle }: { bundle: Bundle }) {
           </p>
         )}
 
-        <span className="mt-auto pt-3 font-serif text-lg text-green-700">
-          {formatPrice(bundle.priceCents)}
-        </span>
+        <div className="mt-auto pt-3">
+          {bundle.priceConfirmed ? (
+            <span className="font-serif text-lg text-green-700">
+              {formatPrice(bundle.priceFcfa)}
+            </span>
+          ) : (
+            <div>
+              <span className="block text-sm font-semibold text-green-700">
+                Price confirmed after order request
+              </span>
+              <span className="block text-xs text-muted">
+                Estimated value: {formatPrice(bundle.priceFcfa)}
+              </span>
+            </div>
+          )}
+        </div>
 
         <div className="grid grid-cols-2 gap-2">
           <button

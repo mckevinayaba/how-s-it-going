@@ -2,11 +2,12 @@ import { useState, type FormEvent } from 'react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Button } from '@/components/ui/Button'
 import { SupportCard } from '@/components/support/SupportCard'
-import { CheckBadgeIcon } from '@/components/icons'
+import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { supportOptions } from '@/data/support'
 import { SUPPORT_INTERESTS, CONTACT_METHODS } from '@/data/orderOptions'
 import { submitSupportInquiry, type SupportInquiryPayload } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 const inputClass =
   'mt-1.5 w-full rounded-card border border-line bg-white px-4 py-3 text-base text-charcoal placeholder:text-muted/60 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20'
@@ -86,9 +87,22 @@ export function Support() {
               <p className="mt-3 text-base leading-relaxed text-muted">
                 The HappyMe Health team will contact you to discuss details.
               </p>
-              <Button to="/" size="lg" className="mt-8">
-                Back to home
-              </Button>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <a
+                  href={buildWhatsAppLink(
+                    `Hi HappyMe Health, I just sent a support inquiry from ${fullName || 'a supporter'} about ${supportInterest}. Following up here on WhatsApp.`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-pill bg-green-500 px-7 py-4 text-base font-medium text-white shadow-soft transition-all duration-300 ease-premium hover:bg-green-700"
+                >
+                  <ChatIcon className="h-5 w-5" strokeWidth={1.7} />
+                  Continue on WhatsApp
+                </a>
+                <Button to="/" variant="outline" size="lg">
+                  Back to home
+                </Button>
+              </div>
             </div>
           ) : (
             <>

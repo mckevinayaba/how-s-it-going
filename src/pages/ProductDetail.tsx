@@ -19,7 +19,6 @@ export function ProductDetail() {
   const navigate = useNavigate()
 
   const [activeImage, setActiveImage] = useState(0)
-  const [variantIndex, setVariantIndex] = useState(0)
   const [reorderList, setReorderList] = useState(false)
   const { addItem } = useCart()
 
@@ -32,7 +31,6 @@ export function ProductDetail() {
     return <Navigate to="/shop" replace />
   }
 
-  const variant = product.variants[variantIndex]
   const gallery = [product.image, ...product.gallery]
   const related = products.filter((p) => product.relatedSlugs.includes(p.slug))
 
@@ -41,9 +39,9 @@ export function ProductDetail() {
       kind: 'product',
       slug: product.slug,
       name: product.name,
-      priceCents: variant.priceCents,
+      priceFcfa: product.currentPackage.priceFcfa,
       image: product.image,
-      variantLabel: variant.label,
+      variantLabel: product.currentPackage.label,
     })
 
   const handleRequestThisProduct = () => {
@@ -59,6 +57,12 @@ export function ProductDetail() {
   const whatsappShareLink = buildWhatsAppLink(
     `${product.name}\n\n${product.shortDescription}\n\n${productUrl}\n\nI found this on HappyMe Health and thought you might like it.`,
   )
+
+  const whatsappPlannedPackageLink = product.plannedPackage
+    ? buildWhatsAppLink(
+        `Hi, I'd like to be notified when the ${product.plannedPackage.label} option for ${product.name} becomes available.`,
+      )
+    : undefined
 
   return (
     <div className="py-10 pb-28 sm:py-14 lg:pb-14">
@@ -122,24 +126,40 @@ export function ProductDetail() {
 
           <div className="mt-6 flex items-center gap-4">
             <span className="font-serif text-2xl text-green-700">
-              {formatPrice(variant.priceCents)}
+              {formatPrice(product.currentPackage.priceFcfa)}
             </span>
-            <label className="sr-only" htmlFor="pack-size">
-              Pack size
-            </label>
-            <select
-              id="pack-size"
-              value={variantIndex}
-              onChange={(event) => setVariantIndex(Number(event.target.value))}
-              className="rounded-pill border border-line bg-white px-4 py-2 text-sm text-charcoal"
-            >
-              {product.variants.map((v, index) => (
-                <option key={v.label} value={index}>
-                  {v.label}
-                </option>
-              ))}
-            </select>
+            <span className="rounded-pill bg-oat px-3 py-1 text-xs font-medium text-charcoal">
+              Currently available: {product.currentPackage.label}
+            </span>
           </div>
+
+          {product.plannedPackage && (
+            <div className="mt-4 rounded-card border border-dashed border-line bg-warm p-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-pill bg-green-50 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-green-700">
+                  Coming soon
+                </span>
+                <span className="text-sm font-medium text-charcoal">
+                  Planned pouch option: {product.plannedPackage.label}
+                </span>
+              </div>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted">
+                We're planning a move to {product.plannedPackage.label} packaging
+                (estimated {formatPrice(product.plannedPackage.priceFcfa)}). This
+                option is not available to order yet — only the current{' '}
+                {product.currentPackage.label} can be added to your basket today.
+              </p>
+              <a
+                href={whatsappPlannedPackageLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2 rounded-pill border border-green-700/30 px-4 py-2 text-xs font-medium text-green-700 transition-colors hover:bg-green-700/5"
+              >
+                <ChatIcon className="h-3.5 w-3.5" strokeWidth={1.8} />
+                Notify me when available
+              </a>
+            </div>
+          )}
 
           <label className="mt-5 flex items-center gap-2 text-sm text-charcoal">
             <input
@@ -259,7 +279,7 @@ export function ProductDetail() {
       {/* Sticky mobile add-to-basket bar */}
       <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-30 flex items-center justify-between gap-4 border-t border-line bg-white/95 px-5 py-3 backdrop-blur lg:hidden">
         <span className="font-serif text-lg text-green-700">
-          {formatPrice(variant.priceCents)}
+          {formatPrice(product.currentPackage.priceFcfa)}
         </span>
         <button
           type="button"

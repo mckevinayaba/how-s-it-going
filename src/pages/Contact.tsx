@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
-import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { buildWhatsAppLink, WHATSAPP_DISPLAY } from '@/lib/whatsapp'
 import { CONTACT_METHODS } from '@/data/orderOptions'
 import { submitContactInquiry, type ContactInquiryPayload } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
@@ -196,7 +196,6 @@ export function Contact() {
               WhatsApp. Our team will help with product questions, order
               requests, delivery details, and support inquiries.
             </p>
-            {/* TODO: replace WHATSAPP_NUMBER in src/lib/whatsapp.ts with the real HappyMe Health WhatsApp business number. */}
             <a
               href={buildWhatsAppLink('Hi HappyMe Health, I have a question.')}
               target="_blank"
@@ -206,6 +205,7 @@ export function Contact() {
               <ChatIcon className="h-4 w-4" strokeWidth={1.8} />
               Continue on WhatsApp
             </a>
+            <p className="mt-3 text-xs text-white/70">{WHATSAPP_DISPLAY}</p>
           </div>
 
           <div className="rounded-xl2 bg-white p-8 shadow-card ring-1 ring-line sm:p-10">

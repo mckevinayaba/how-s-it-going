@@ -197,6 +197,16 @@ export interface ImpactReport {
   whatHappened: string[]
   challenges: string[]
   supportNeeded: string[]
+  /** Where the activity took place. Shown on the report card when present. */
+  location?: string
+  /** When the activity took place. Left unset until the owner confirms an exact date. */
+  date?: string
+  /** Primary theme of the report, e.g. "Breast cancer awareness". */
+  focusArea?: string
+  /** A photo for this report. Falls back to the outreach illustration when unset. */
+  image?: string
+  /** Link to a downloadable PDF report. Shows "Download coming soon" when unset. */
+  downloadUrl?: string
 }
 
 export const impactReports: ImpactReport[] = [
@@ -206,6 +216,8 @@ export const impactReports: ImpactReport[] = [
     subtitle: 'Breast cancer awareness and clinical examination activity',
     tags: ['Breast cancer awareness', 'Clinical examinations', 'Community outreach'],
     keyMetric: '52 people examined out of a target of 100',
+    location: 'Buea Bomaka, Cameroon',
+    focusArea: 'Breast cancer awareness',
     overview:
       'The activity focused on breast cancer awareness and free clinical examinations. The report recorded 52 beneficiaries reached, representing 52 percent of the 100 person target.',
     whatHappened: [
@@ -229,6 +241,8 @@ export const impactReports: ImpactReport[] = [
     subtitle: 'Breast cancer awareness session with school health club',
     tags: ['School health club', 'Breast cancer awareness', 'Student outreach'],
     keyMetric: '30 targeted students reached, 83.3 percent project success rate',
+    location: 'Pendamboko, Cameroon',
+    focusArea: 'School health club outreach',
     overview:
       'All 30 targeted health club students were present. The intervention included sensitisation, volunteer mobilisation, administrative clearance, sanitary product distribution, and student participation.',
     whatHappened: [

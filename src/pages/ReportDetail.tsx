@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { getImpactReportBySlug } from '@/data/impact'
 import { DocumentIcon } from '@/components/icons'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { OutreachHeroScene } from '@/components/illustrations/ImpactScenes'
 
 function ReportSection({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -27,6 +28,8 @@ export function ReportDetail() {
     return <Navigate to="/impact" replace />
   }
 
+  const metaLine = [report.location, report.date, report.focusArea].filter(Boolean).join(' · ')
+
   return (
     <div className="py-12 sm:py-16">
       <div className="container-page max-w-3xl">
@@ -36,6 +39,14 @@ export function ReportDetail() {
         >
           &larr; Back to Impact
         </Link>
+
+        <div className="mt-6 overflow-hidden rounded-xl2 shadow-card">
+          {report.image ? (
+            <img src={report.image} alt={report.title} className="aspect-[16/9] w-full object-cover" />
+          ) : (
+            <OutreachHeroScene className="aspect-[16/9] w-full" rounded="rounded-none" />
+          )}
+        </div>
 
         <span className="mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-700">
           <DocumentIcon className="h-6 w-6" strokeWidth={1.6} />
@@ -48,6 +59,7 @@ export function ReportDetail() {
           {report.title}
         </h1>
         <p className="mt-3 text-base text-muted">{report.subtitle}</p>
+        {metaLine && <p className="mt-1 text-sm text-muted">{metaLine}</p>}
 
         <ul className="mt-5 flex flex-wrap gap-2">
           {report.tags.map((tag) => (
@@ -106,14 +118,25 @@ export function ReportDetail() {
         </ReportSection>
 
         <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-line pt-8">
-          <button
-            type="button"
-            disabled
-            title="Download coming soon"
-            className="cursor-not-allowed rounded-pill border border-line px-6 py-3 text-sm font-medium text-muted opacity-70"
-          >
-            Download coming soon
-          </button>
+          {report.downloadUrl ? (
+            <a
+              href={report.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-pill border border-green-700/30 px-6 py-3 text-sm font-medium text-green-700 transition-colors hover:bg-green-700/5"
+            >
+              Download report
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              title="Download coming soon"
+              className="cursor-not-allowed rounded-pill border border-line px-6 py-3 text-sm font-medium text-muted opacity-70"
+            >
+              Download coming soon
+            </button>
+          )}
           <Button to="/support" size="lg">
             Support the next outreach
           </Button>

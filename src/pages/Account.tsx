@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '@/components/ui/Button'
-import { CheckBadgeIcon } from '@/components/icons'
+import { CheckBadgeIcon, ChatIcon } from '@/components/icons'
 import { CONTACT_METHODS } from '@/data/orderOptions'
 import { submitOrderFollowUp, type OrderFollowUpPayload } from '@/lib/submissions'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 const NEED_OPTIONS = [
   'I submitted an order request',
@@ -77,7 +78,20 @@ export function Account() {
               <p className="mt-3 text-base leading-relaxed text-muted">
                 Our team will contact you shortly.
               </p>
-              <Button to="/" size="lg" className="mt-8">Back to home</Button>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <a
+                  href={buildWhatsAppLink(
+                    `Hi HappyMe Health, I'm following up on an order. ${orderReference ? `Reference: ${orderReference}. ` : ''}${needType}`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-pill bg-green-500 px-7 py-4 text-base font-medium text-white shadow-soft transition-all duration-300 ease-premium hover:bg-green-700"
+                >
+                  <ChatIcon className="h-5 w-5" strokeWidth={1.7} />
+                  Continue on WhatsApp
+                </a>
+                <Button to="/" variant="outline" size="lg">Back to home</Button>
+              </div>
             </div>
           ) : (
             <form

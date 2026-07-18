@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useCart, SUPPORT_ADD_ON_CENTS } from '@/context/CartContext'
+import { useCart, SUPPORT_ADD_ON_FCFA } from '@/context/CartContext'
 import { ProductVisual } from '@/components/product/ProductVisual'
 import bundleImg from '@/assets/bundle-scene.jpg'
 import { Button } from '@/components/ui/Button'
@@ -27,7 +27,7 @@ function CartItemVisual({ item }: { item: CartLineItem }) {
 
 export function Cart() {
   usePageMeta('Your Basket | HappyMe Health')
-  const { items, subtotalCents, totalCents, setQuantity, removeItem, supportAddOn, setSupportAddOn } =
+  const { items, subtotalFcfa, totalFcfa, setQuantity, removeItem, supportAddOn, setSupportAddOn } =
     useCart()
 
   if (items.length === 0) {
@@ -91,7 +91,7 @@ export function Cart() {
                     </button>
                   </div>
                   <span className="font-serif text-base text-green-700">
-                    {formatPrice(item.priceCents * item.quantity)}
+                    {formatPrice(item.priceFcfa * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export function Cart() {
 
           <div className="mt-4 flex justify-between text-sm text-charcoal">
             <span>Subtotal</span>
-            <span>{formatPrice(subtotalCents)}</span>
+            <span>{formatPrice(subtotalFcfa)}</span>
           </div>
 
           <fieldset className="mt-4 rounded-card bg-green-50 p-4">
@@ -127,7 +127,7 @@ export function Cart() {
                   {choice.label}
                   {choice.value === 'contribute' && (
                     <span className="text-xs text-green-700/80">
-                      ({formatPrice(SUPPORT_ADD_ON_CENTS)})
+                      ({formatPrice(SUPPORT_ADD_ON_FCFA)})
                     </span>
                   )}
                 </label>
@@ -137,7 +137,7 @@ export function Cart() {
 
           <div className="mt-4 flex justify-between border-t border-line pt-4 font-serif text-lg text-charcoal">
             <span>Total</span>
-            <span>{formatPrice(totalCents)}</span>
+            <span>{formatPrice(totalFcfa)}</span>
           </div>
 
           <Button to="/request-order" size="lg" className="mt-6 w-full">

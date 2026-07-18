@@ -11,18 +11,18 @@ import type { CartLineItem } from '@/types'
 
 const STORAGE_KEY = 'happyme-cart-v1'
 
-export const SUPPORT_ADD_ON_CENTS = 500
+export const SUPPORT_ADD_ON_FCFA = 3000
 
 export type SupportAddOnChoice = 'contribute' | 'ask-me' | 'not-today'
 
 interface CartContextValue {
   items: CartLineItem[]
   itemCount: number
-  subtotalCents: number
+  subtotalFcfa: number
   supportAddOn: SupportAddOnChoice
   setSupportAddOn: (choice: SupportAddOnChoice) => void
-  supportAddOnCents: number
-  totalCents: number
+  supportAddOnFcfa: number
+  totalFcfa: number
   addItem: (item: Omit<CartLineItem, 'quantity'>, quantity?: number) => void
   removeItem: (slug: string, variantLabel?: string) => void
   setQuantity: (slug: string, quantity: number, variantLabel?: string) => void
@@ -113,29 +113,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [items],
   )
 
-  const subtotalCents = useMemo(
-    () => items.reduce((sum, line) => sum + line.priceCents * line.quantity, 0),
+  const subtotalFcfa = useMemo(
+    () => items.reduce((sum, line) => sum + line.priceFcfa * line.quantity, 0),
     [items],
   )
 
-  const supportAddOnCents = supportAddOn === 'contribute' ? SUPPORT_ADD_ON_CENTS : 0
-  const totalCents = subtotalCents + supportAddOnCents
+  const supportAddOnFcfa = supportAddOn === 'contribute' ? SUPPORT_ADD_ON_FCFA : 0
+  const totalFcfa = subtotalFcfa + supportAddOnFcfa
 
   const value = useMemo(
     () => ({
       items,
       itemCount,
-      subtotalCents,
+      subtotalFcfa,
       supportAddOn,
       setSupportAddOn,
-      supportAddOnCents,
-      totalCents,
+      supportAddOnFcfa,
+      totalFcfa,
       addItem,
       removeItem,
       setQuantity,
       clearCart,
     }),
-    [items, itemCount, subtotalCents, supportAddOn, supportAddOnCents, totalCents, addItem, removeItem, setQuantity, clearCart],
+    [items, itemCount, subtotalFcfa, supportAddOn, supportAddOnFcfa, totalFcfa, addItem, removeItem, setQuantity, clearCart],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

@@ -1,8 +1,9 @@
 export type ProductCategory = 'sweeteners' | 'spices' | 'snacks'
 
-export interface ProductVariant {
+/** A specific package size and its price in FCFA. */
+export interface PackageOption {
   label: string
-  priceCents: number
+  priceFcfa: number
 }
 
 export interface Product {
@@ -11,9 +12,13 @@ export interface Product {
   category: ProductCategory
   shortDescription: string
   longDescription: string
-  priceCents: number
-  packSize: string
-  variants: ProductVariant[]
+  /** The package currently available for order (real stock today). */
+  currentPackage: PackageOption
+  /**
+   * A future packaging direction (e.g. pouches) that is not yet available
+   * to order. Shown as "coming soon" — never orderable via basket.
+   */
+  plannedPackage?: PackageOption
   image: PlaceholderSpec
   gallery: PlaceholderSpec[]
   story: string
@@ -26,7 +31,10 @@ export interface Bundle {
   slug: string
   name: string
   description: string
-  priceCents: number
+  /** Estimated value in FCFA (sum of current component prices). */
+  priceFcfa: number
+  /** False until the owner approves a final bundle price/discount. */
+  priceConfirmed: boolean
   includes: string[]
   image: PlaceholderSpec
   isImpactBundle?: boolean
@@ -68,7 +76,8 @@ export interface CartLineItem {
   kind: 'product' | 'bundle'
   slug: string
   name: string
-  priceCents: number
+  /** Price in FCFA (not cents — FCFA has no subdivision). */
+  priceFcfa: number
   quantity: number
   image: PlaceholderSpec
   variantLabel?: string

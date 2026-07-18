@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button'
 import { TeamMemberCard } from '@/components/team/TeamMemberCard'
 import { teamMembers } from '@/data/team'
 import { usePageMeta } from '@/hooks/usePageMeta'
+import { OutreachHeroScene } from '@/components/illustrations/ImpactScenes'
 
 type Pillar = {
   eyebrow: string
@@ -96,20 +97,29 @@ export function About() {
 
       {/* History */}
       <section className="bg-warm py-16 sm:py-24">
-        <div className="container-page grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <SectionHeading
-            eyebrow="Our history"
-            heading="This brand was born inside a family kitchen"
-          />
-          <p className="text-base leading-relaxed text-muted">
-            HappyMe Health started as a personal response to chronic
-            illness. A father living with hypertension. A sister growing up
-            with type 1 diabetes. A grandmother lost to stroke. These were
-            not statistics. They were people at a table, navigating health
-            without always having the right tools, knowledge, or access to
-            proper care. That experience became the engine behind HappyMe
-            Health.
-          </p>
+        <div className="container-page grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <OutreachHeroScene className="order-2 aspect-[4/5] w-full shadow-card lg:order-1" />
+          <div className="order-1 lg:order-2">
+            <SectionHeading
+              eyebrow="Our history"
+              heading="This brand was born inside a family kitchen"
+            />
+            <p className="text-base leading-relaxed text-muted">
+              HappyMe Health started as a personal response to chronic
+              illness. A father living with hypertension. A sister growing up
+              with type 1 diabetes. A grandmother lost to stroke. These were
+              not statistics. They were people at a table, navigating health
+              without always having the right tools, knowledge, or access to
+              proper care. That experience became the engine behind HappyMe
+              Health.
+            </p>
+            <p className="mt-5 text-base leading-relaxed text-muted">
+              HappyMe Health exists for individuals and families who want
+              better everyday choices, but it also reaches beyond the home
+              through practical outreach, awareness, and capacity building in
+              communities with limited access to care.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -117,6 +127,12 @@ export function About() {
       <section className="bg-oat py-16 sm:py-24">
         <div className="container-page">
           <SectionHeading eyebrow="Our team" heading="The people behind HappyMe Health" />
+          <div className="mt-8 overflow-hidden rounded-xl2 shadow-card">
+            <OutreachHeroScene className="aspect-[21/9] w-full" rounded="rounded-none" />
+          </div>
+          <p className="mt-3 text-center text-xs text-muted">
+            Our team at work during a community outreach activity.
+          </p>
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member, index) => (
               <TeamMemberCard key={member.name} member={member} index={index} />

@@ -121,6 +121,16 @@ export function Impact() {
               <ReportCard key={report.slug} report={report} />
             ))}
           </div>
+
+          <div className="mt-8 rounded-xl2 border border-dashed border-line bg-oat p-6 sm:p-8">
+            <h3 className="font-serif text-lg text-charcoal">More reports coming soon</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              HappyMe Health is building a transparent reporting culture. As
+              more outreach reports are organised and reviewed, they will be
+              added here with clear project summaries, outcomes, lessons, and
+              support needs.
+            </p>
+          </div>
         </div>
       </section>
 

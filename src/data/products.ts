@@ -1,5 +1,10 @@
 import type { Product } from '@/types'
 
+// TODO: Confirm whether the public product name should remain "Date Sugar"
+// or change to "Dates" once the client confirms whether the product is
+// whole dates or ground date sugar. Do not change the public name until
+// that is confirmed — see slug: 'date-sugar' below.
+
 export const products: Product[] = [
   {
     slug: 'date-sugar',
@@ -9,12 +14,8 @@ export const products: Product[] = [
       'A natural way to bring sweetness back into the kitchen using whole ground dates.',
     longDescription:
       'Keeps the fruit’s fibre and flavour, for people making more intentional food choices every day.',
-    priceCents: 1199,
-    packSize: '350g pouch',
-    variants: [
-      { label: '350g pouch', priceCents: 1199 },
-      { label: '700g pouch', priceCents: 2099 },
-    ],
+    currentPackage: { label: '500g bottle', priceFcfa: 4000 },
+    plannedPackage: { label: '350g pouch', priceFcfa: 2500 },
     image: { tone: 'product', label: 'Date Sugar — product placeholder' },
     gallery: [
       { tone: 'product', label: 'Date Sugar — packaging' },
@@ -45,12 +46,8 @@ export const products: Product[] = [
       'A familiar kitchen ingredient used in everyday wellness routines, from warm drinks to home remedies.',
     longDescription:
       'Trusted in many homes for its place in daily cooking and comfort rituals.',
-    priceCents: 849,
-    packSize: '200g pouch',
-    variants: [
-      { label: '200g pouch', priceCents: 849 },
-      { label: '400g pouch', priceCents: 1549 },
-    ],
+    currentPackage: { label: '500g bottle', priceFcfa: 3000 },
+    plannedPackage: { label: '200g pouch', priceFcfa: 1000 },
     image: { tone: 'product', label: 'Turmeric — product placeholder' },
     gallery: [
       { tone: 'product', label: 'Turmeric — packaging' },
@@ -81,12 +78,8 @@ export const products: Product[] = [
       'A nourishing snack for clean, steady energy during long days.',
     longDescription:
       'Grown in northern Cameroon and enjoyed by people who want more natural snacking in their routine.',
-    priceCents: 999,
-    packSize: '250g bag',
-    variants: [
-      { label: '250g bag', priceCents: 999 },
-      { label: '500g bag', priceCents: 1799 },
-    ],
+    currentPackage: { label: '500g bottle', priceFcfa: 2000 },
+    plannedPackage: { label: '200g pouch', priceFcfa: 500 },
     image: { tone: 'product', label: 'Tigernuts — product placeholder' },
     gallery: [
       { tone: 'product', label: 'Tigernuts — packaging' },

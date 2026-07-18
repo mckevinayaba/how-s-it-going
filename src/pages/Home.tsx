@@ -28,8 +28,8 @@ const ORDER_FLOW_STEPS = ['Order online', 'Confirm by WhatsApp', 'Pay after conf
 
 export function Home() {
   usePageMeta(
-    'HappyMe Health | Better Everyday Food Choices for Families',
-    'HappyMe Health creates nourishing everyday products for families making more mindful kitchen choices, while supporting practical health outreach in communities with limited access to care.',
+    'HappyMe Health | Better Everyday Food Choices for Individuals and Families',
+    'HappyMe Health creates nourishing everyday products for individuals and families making more mindful choices in the kitchen, while supporting health education and screening outreach in communities with limited access to care.',
   )
   const { addItem } = useCart()
   const navigate = useNavigate()
@@ -41,7 +41,7 @@ export function Home() {
       kind: 'bundle',
       slug: starterPack.slug,
       name: starterPack.name,
-      priceCents: starterPack.priceCents,
+      priceFcfa: starterPack.priceFcfa,
       image: starterPack.image,
     })
     navigate('/request-order')
@@ -55,13 +55,13 @@ export function Home() {
           <div>
             <h1 className="text-balance font-serif text-4xl leading-[1.1] text-charcoal sm:text-5xl lg:text-[3.4rem]">
               Better everyday <span className="text-green-600">food choices</span> for
-              families who take health seriously.
+              individuals and families who take health seriously.
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               HappyMe Health creates nourishing everyday products for
-              families making more mindful choices in the kitchen, while
-              supporting health education and screening outreach in
-              communities with limited access to care.
+              individuals and families making more mindful choices in the
+              kitchen, while supporting health education and screening
+              outreach in communities with limited access to care.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button to="/shop" size="lg">
@@ -147,12 +147,23 @@ export function Home() {
                 </h2>
                 <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
                   Date Sugar, Turmeric, and Tigernuts in one thoughtful
-                  household starter pack for families making more mindful
-                  everyday food choices.
+                  household starter pack for individuals and families making
+                  more mindful everyday food choices.
                 </p>
-                <span className="mt-4 font-serif text-2xl text-green-700">
-                  {formatPrice(starterPack.priceCents)}
-                </span>
+                {starterPack.priceConfirmed ? (
+                  <span className="mt-4 font-serif text-2xl text-green-700">
+                    {formatPrice(starterPack.priceFcfa)}
+                  </span>
+                ) : (
+                  <div className="mt-4">
+                    <span className="block font-serif text-xl text-green-700">
+                      Price confirmed after order request
+                    </span>
+                    <span className="block text-sm text-muted">
+                      Estimated value: {formatPrice(starterPack.priceFcfa)}
+                    </span>
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={handleRequestStarterPack}
@@ -275,9 +286,9 @@ export function Home() {
           </h2>
           <p className="mt-5 text-base leading-relaxed text-white/85">
             You can support this work in two ways: by choosing better
-            everyday products for your family, and by helping us reach more
-            people with simple, practical health outreach. Every step
-            matters.
+            everyday products for you and your family, and by helping us
+            reach more individuals and families with simple, practical
+            health outreach. Every step matters.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Button to="/shop" variant="inverse" size="lg">

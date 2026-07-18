@@ -38,9 +38,10 @@ export function Footer() {
           </Link>
 
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/75">
-            Nourishing everyday products for families making more mindful
-            kitchen choices — and outreach that supports health education and
-            screening in communities with limited access to care.
+            Nourishing everyday products for individuals and families making
+            more mindful kitchen choices — and outreach that supports health
+            education and screening in communities with limited access to
+            care.
           </p>
         </div>
 
