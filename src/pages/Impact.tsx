@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { OutreachHeroScene } from '@/components/illustrations/ImpactScenes'
+import sallyAlbum from '@/assets/sally-impact-album.png.asset.json'
 import { PillarCard } from '@/components/impact/PillarCard'
 import { ProjectStoryCard } from '@/components/impact/ProjectStoryCard'
 import { InsightCard } from '@/components/impact/InsightCard'
