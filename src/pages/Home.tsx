@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import heroImg from '@/assets/hero-scene.jpg'
 import founderImg from '@/assets/founder-kitchen.jpg'
 import bundleImg from '@/assets/bundle-scene.jpg'
-import sallyAlbum from '@/assets/sally-impact-album.png.asset.json'
+import { SallyAlbumImage } from '@/components/SallyAlbumImage'
 
 import { ProductCard } from '@/components/product/ProductCard'
 import { BundleCard } from '@/components/product/BundleCard'
@@ -254,14 +254,7 @@ export function Home() {
 
           <figure className="relative">
             <div className="overflow-hidden rounded-card bg-warm p-2 shadow-lift ring-1 ring-black/5 sm:p-3">
-              <img
-                src={sallyAlbum.url}
-                alt="Sally Njoh, Founder and CEO of HappyMe Health, with the team during community health outreach, screenings, and awareness activities in Cameroon."
-                loading="lazy"
-                decoding="async"
-                sizes="(min-width: 1024px) 560px, 100vw"
-                className="h-auto w-full rounded-[calc(theme(borderRadius.card)-0.25rem)] object-cover"
-              />
+              <SallyAlbumImage loading="lazy" />
             </div>
             <figcaption className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">
               Sally Njoh and the HappyMe Health team during community outreach, screenings, and awareness work in Cameroon.
