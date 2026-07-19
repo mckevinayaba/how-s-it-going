@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { OutreachHeroScene } from '@/components/illustrations/ImpactScenes'
+import sallyAlbum from '@/assets/sally-impact-album.png.asset.json'
 import { PillarCard } from '@/components/impact/PillarCard'
 import { ProjectStoryCard } from '@/components/impact/ProjectStoryCard'
 import { InsightCard } from '@/components/impact/InsightCard'
@@ -42,13 +42,41 @@ export function Impact() {
               <Button to="/support" size="lg">
                 Support outreach
               </Button>
-              <Button to="#reports" variant="outline" size="lg">
+              <a
+                href="#reports"
+                className="inline-flex items-center justify-center gap-2 rounded-pill border border-green-700/30 px-7 py-4 text-base font-medium text-green-700 transition-all duration-300 hover:bg-green-700/5 active:bg-green-700/10"
+              >
                 View impact reports
-              </Button>
+              </a>
             </div>
           </div>
 
-          <OutreachHeroScene className="aspect-[4/5] w-full shadow-lift lg:aspect-[5/6]" />
+          <figure className="relative">
+            <div className="overflow-hidden rounded-card bg-warm p-2 shadow-lift ring-1 ring-black/5 sm:p-3">
+              <img
+                src={sallyAlbum.url}
+                alt="Sally Njoh, Founder and CEO of HappyMe Health, with the team during community health outreach, screenings, and awareness activities in Cameroon."
+                loading="eager"
+                decoding="async"
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="h-auto w-full rounded-[calc(theme(borderRadius.card)-0.25rem)] object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">
+              Sally Njoh and the HappyMe Health team during community health outreach, screenings, and awareness work in Cameroon.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div className="container-page mt-12 lg:mt-16">
+          <div className="mx-auto max-w-3xl rounded-card border border-line bg-white/70 p-6 sm:p-8">
+            <h2 className="font-serif text-2xl leading-tight text-charcoal sm:text-3xl">
+              This is not theory. Sally has done the work.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted">
+              HappyMe Health is led by Sally Njoh, whose work connects everyday nutrition with practical community health outreach. From screenings to awareness campaigns, the mission is simple: help individuals and families make better choices earlier, while taking health support closer to communities that need it.
+            </p>
+          </div>
         </div>
       </section>
 
