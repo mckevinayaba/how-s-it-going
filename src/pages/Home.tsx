@@ -4,6 +4,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import heroImg from '@/assets/hero-scene.jpg'
 import founderImg from '@/assets/founder-kitchen.jpg'
 import bundleImg from '@/assets/bundle-scene.jpg'
+import sallyAlbum from '@/assets/sally-impact-album.png.asset.json'
 
 import { ProductCard } from '@/components/product/ProductCard'
 import { BundleCard } from '@/components/product/BundleCard'
@@ -225,6 +226,47 @@ export function Home() {
               Read our story
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* 4b. Sally credibility album */}
+      <section className="bg-oat py-16 sm:py-24">
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-700">
+              Founder-led
+            </p>
+            <h2 className="mt-3 text-balance font-serif text-3xl leading-[1.1] text-charcoal sm:text-4xl">
+              This is not theory. Sally has done the work.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              HappyMe Health is led by Sally Njoh, whose work connects everyday nutrition with practical community health outreach. From screenings to awareness campaigns, the mission is simple: help individuals and families make better choices earlier, while taking health support closer to communities that need it.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button to="/impact" size="lg">
+                See our impact
+              </Button>
+              <Button to="/about" variant="outline" size="lg">
+                Meet Sally
+              </Button>
+            </div>
+          </div>
+
+          <figure className="relative">
+            <div className="overflow-hidden rounded-card bg-warm p-2 shadow-lift ring-1 ring-black/5 sm:p-3">
+              <img
+                src={sallyAlbum.url}
+                alt="Sally Njoh, Founder and CEO of HappyMe Health, with the team during community health outreach, screenings, and awareness activities in Cameroon."
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="h-auto w-full rounded-[calc(theme(borderRadius.card)-0.25rem)] object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">
+              Sally Njoh and the HappyMe Health team during community outreach, screenings, and awareness work in Cameroon.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
